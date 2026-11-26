@@ -1,29 +1,26 @@
 # My Research Skills
 
-> 个人研究技能库 —— 沉淀、复用与持续迭代我在科研中打磨的 Agent Skills。
+> 个人研究技能库 —— 沉淀、复用与持续迭代我在 **Agent + HSI-MSI 图像融合** 科研中打磨的 Agent Skills。
 
-这里存放我自己在研究与工程中实际使用的 skills。每个 skill 是一个自包含目录：核心指令、使用手册、可执行脚本、参考知识与输出样例放在一起，便于安装到 Codex / Claude / 其他支持 SKILL.md 的 Agent 运行时，也便于跨项目共享与版本追溯。
+这里存放我自己在研究与工程中实际使用的 skills。每个 skill 是一个自包含目录：核心指令、使用手册、可执行脚本、参考知识与输出样例放在一起，便于安装到 Codex / Claude / 其他支持 `SKILL.md` 的 Agent 运行时，也便于跨项目共享与版本追溯。
 
 ---
 
-## 当前收录
+## 当前收录（5 个 Skill 构成完整科研闭环）
 
-| Skill | 简介 | 状态 |
-| --- | --- | --- |
-| [`hsi-msi-idea-scout_codex`](./hsi-msi-idea-scout_codex) | 单篇论文跨域迁移分析：把自然图像 / 医学图像顶会顶刊论文的创新机理，经反向查新与物理适配，转化为 HSI-MSI 图像融合（Track A）与 Agent + HSI-MSI 融合（Track B）的可执行研究蓝图 | 可用 |
+| 科研阶段 | Skill | 简介 | 手册 | 状态 |
+| :--- | :--- | :--- | :--- | :--- |
+| **1. 精读沉淀** | [`hsi-agent-paper-reader_codex`](./hsi-agent-paper-reader_codex) | 对 HSI-MSI 融合 / Vision Agent / Agent+HSI-MSI 论文按统一 Schema 结构化精读，提取退化假设、Agent 闭环与局限性，并持久化写入本地文献台账（CSV + Markdown） | [USER_USE](./hsi-agent-paper-reader_codex/USER_USE.md) | 可用 |
+| **2. 跨域选题** | [`hsi-msi-idea-scout_codex`](./hsi-msi-idea-scout_codex) | 单篇论文跨域迁移分析：把自然图像 / 医学图像 9 大顶会顶刊近 2 年论文的失效机理，经 OpenAlex + arXiv 双通道查新与物理适配，转化为 HSI-MSI（Track A）与 Agent + HSI-MSI（Track B）的可执行研究蓝图 | [USER_USE](./hsi-msi-idea-scout_codex/USER_USE.md) | 可用 |
+| **3. 代码解剖** | [`hsi-repo-surgeon_codex`](./hsi-repo-surgeon_codex) | AST 自动扫描 PyTorch 开源仓库，输出端到端张量维度流转表、公式-代码行号对照、128+ 波段显存与光谱兼容性审计，并将现有求解器封装为标准 Agent Tool | [USER_USE](./hsi-repo-surgeon_codex/USER_USE.md) | 可用 |
+| **4. 实验诊断** | [`hsi-exp-diagnostician_codex`](./hsi-exp-diagnostician_codex) | 计算 PSNR / SAM / ERGAS / CC 及最差波段与最差像元光谱曲线，诊断空间-光谱权衡与 Agent 反思发散原因，自动输出出版级 SVG 诊断图 | [USER_USE](./hsi-exp-diagnostician_codex/USER_USE.md) | 可用 |
+| **5. 审稿攻防** | [`hsi-agent-reviewer_codex`](./hsi-agent-reviewer_codex) | 投稿前模拟 **遥感物理逆问题 / CV 顶会方法论 / Agent 系统效率** 三位严苛审稿人，按 P0/P1/P2 排查拒稿风险与缺失消融，并辅助起草实证型 Rebuttal | [USER_USE](./hsi-agent-reviewer_codex/USER_USE.md) | 可用 |
 
-### `hsi-msi-idea-scout_codex`
+### 推荐科研闭环串联方式
 
-给定一篇自然图像或医学图像领域的单篇前沿论文（PDF / arXiv / 标题 / 正文 / 官方代码），该 skill 强制 Agent 按严格的 6 阶段科研流程执行：
-
-1. **资格与证据深度核验** —— 9 大顶会顶刊 + 近 24 个月窗口，标注 `[Full-Text Verified]` 或 `[Abstract-Level Triage]`。
-2. **失效机理与首创点解构** —— 优先拆出被忽略的失效机理，而非泛泛的模块摘要。
-3. **隐性前提审计** —— 找出在 RGB / 医学图像成立、但在高光谱（31–224 波段、未知 PSF/SRF、SAM 约束）下失效的假设。
-4. **双通道反向查新** —— OpenAlex（已发表）+ arXiv（预印本）+ 同义词扩展，对每个原子创新点判定 Gap Tier（Tier 1 空白 / Tier 2 盲区 / Tier 3 饱和淘汰）。
-5. **精准改造蓝图** —— 面向 Track A / Track B 的动机诊断实验、物理退化观测方程适配、Agent 非 RGB 物理探针闭环、审稿人三连问防御与 MVP 实验。
-6. **反模式自检** —— 杜绝文献幻觉、模块缝合与基于摘要编造公式。
-
-详细安装与用法见 [`hsi-msi-idea-scout_codex/USER_USE.md`](./hsi-msi-idea-scout_codex/USER_USE.md)。
+1. **调研与选题期**：用 `hsi-agent-paper-reader_codex` 持续沉淀领域文献台账 + 用 `hsi-msi-idea-scout_codex` 挖掘跨领域 Tier 1/2 创新点。
+2. **复现与实验期**：用 `hsi-repo-surgeon_codex` 拆改开源代码或封装 Agent Tools + 用 `hsi-exp-diagnostician_codex` 定位 SAM 漂移、最差波段和 Agent 轨迹问题并出图。
+3. **成文与投稿期**：用 `hsi-agent-reviewer_codex` 在投稿前做三视角压力测试，提前补齐关键消融实验。
 
 ---
 
@@ -31,59 +28,87 @@
 
 ```text
 skills_list/
-├── README.md                          # 本文件：技能库总览
-├── .gitignore                         # 排除 Python 缓存等生成物
-└── hsi-msi-idea-scout_codex/           # 单个 skill = 一个自包含目录
-    ├── SKILL.md                       # [Agent 自动加载] 核心指令与工作流
-    ├── USER_USE.md                    # [人读] 安装 / 配置 / 调用手册
-    ├── scripts/
-    │   ├── check_hsi_gap.py           # 核心：OpenAlex + arXiv 双通道反向查新（零外部依赖）
-    │   └── fetch_top_venues.py        # 辅助：DBLP + OpenAlex 顶会顶刊论文检索
-    ├── references/
-    │   ├── venue_taxonomy.md          # 9 大顶会顶刊白名单与近 24 个月规则
-    │   ├── hsi_msi_pain_points.md     # HSI-MSI / Agent+HSI-MSI 痛点图谱（A1–A5, B1–B5）
-    │   ├── transfer_bridge_map.md     # 跨域映射词典（含医学图像 M1/M2/M3 金矿）
-    │   ├── my_baseline_profile.md     # [建议填写] 个人 baseline / 显存 / 数据集 / 目标会议
-    │   ├── anti_patterns.md           # 7 条硬性学术审计红线
-    │   └── calibration_playbook.md    # 技能校准与持续进化指南
-    └── examples/
-        └── sample_idea_report.md      # 标准输出报告格式锚点
+├── README.md                              # 本文件：技能库总览
+├── .gitignore                             # 排除 Python 缓存等生成物
+├── hsi-agent-paper-reader_codex/          # 1. 结构化精读 + 文献台账
+│   ├── SKILL.md
+│   ├── USER_USE.md
+│   ├── scripts/append_ledger.py           # 追加/去重/检索 CSV + Markdown 台账
+│   ├── references/extraction_schema.md
+│   └── examples/sample_paper_note.md
+├── hsi-msi-idea-scout_codex/              # 2. 单篇跨域迁移 + 双通道查新
+│   ├── SKILL.md
+│   ├── USER_USE.md
+│   ├── scripts/
+│   │   ├── check_hsi_gap.py               # OpenAlex + arXiv 双通道反向查新
+│   │   └── fetch_top_venues.py            # DBLP + OpenAlex 9 大顶会顶刊检索
+│   ├── references/
+│   │   ├── venue_taxonomy.md
+│   │   ├── hsi_msi_pain_points.md
+│   │   ├── transfer_bridge_map.md
+│   │   ├── my_baseline_profile.md         # [建议填写] 个人 baseline / 显存 / 数据集
+│   │   ├── anti_patterns.md
+│   │   └── calibration_playbook.md
+│   └── examples/sample_idea_report.md
+├── hsi-repo-surgeon_codex/                # 3. 开源仓库解剖 + Agent Tool 封装
+│   ├── SKILL.md
+│   ├── USER_USE.md
+│   ├── scripts/scan_repo_structure.py     # AST 扫描 nn.Module 与 forward 入口
+│   └── references/
+│       ├── agent_tool_contract.md
+│       └── tensor_audit_checklist.md
+├── hsi-exp-diagnostician_codex/           # 4. 物理指标诊断 + SVG 出图
+│   ├── SKILL.md
+│   ├── USER_USE.md
+│   ├── scripts/compute_hsi_metrics.py     # PSNR/SAM/ERGAS/CC + 诊断 SVG
+│   └── references/metric_interpretation_guide.md
+└── hsi-agent-reviewer_codex/              # 5. 三视角严苛审稿人模拟 + Rebuttal
+    ├── SKILL.md
+    ├── USER_USE.md
+    └── references/
+        ├── reviewer_personas.md
+        └── rebuttal_playbook.md
 ```
 
 ---
 
 ## 快速开始
 
-**1. 安装 skill（全局，以 Codex 为例）**
+### 1. 一键安装全部 Skills 到 Codex（全局，推荐）
+
+**Windows (PowerShell，在 `skills_list/` 目录下执行)：**
 
 ```powershell
 New-Item -ItemType Directory -Force "$HOME\.codex\skills" | Out-Null
-Copy-Item -Recurse -Force ".\hsi-msi-idea-scout_codex" "$HOME\.codex\skills\hsi-msi-idea-scout_codex"
+Get-ChildItem -Directory -Filter "*_codex" | ForEach-Object {
+    Copy-Item -Recurse -Force $_.FullName (Join-Path "$HOME\.codex\skills" $_.Name)
+}
 ```
 
-macOS / Linux：
+**macOS / Linux：**
 
 ```bash
 mkdir -p ~/.codex/skills
-cp -r hsi-msi-idea-scout_codex ~/.codex/skills/
+cp -r *_codex ~/.codex/skills/
 ```
 
-复制后重启 Agent 即可自动扫描加载。项目级安装（随 Git 共享）等方式见各 skill 的 `USER_USE.md`。
+复制完成后重启 Codex 即可自动扫描加载。如果只需安装单个 skill 或项目级安装（`.agents/skills/`），请查看各自目录下的 `USER_USE.md`。
 
-**2. 首次配置（推荐）**
+### 2. 首次配置（推荐）
 
-填写 `hsi-msi-idea-scout_codex/references/my_baseline_profile.md`，写入你的 baseline、显存、数据集与目标会议，生成方案会自动对齐这些约束。
+填写 `hsi-msi-idea-scout_codex/references/my_baseline_profile.md`，写入你的主力 baseline、显卡显存、常用数据集与目标投稿会议，后续迁移蓝图会自动对齐这些约束。
 
-**3. 调用**
+### 3. 调用示例
 
-在 Agent 对话中显式触发，例如：
+在 Codex 对话中通过 `$<skill_name>` 显式触发，例如：
 
 ```text
-使用 $hsi-msi-idea-scout_codex 分析本地论文 D:\papers\xxx_cvpr2025.pdf，
-对拆解出的每个子创新点运行双通道反向查新，最后保存为 transfer_report.md。
+使用 $hsi-agent-paper-reader_codex 精读论文 D:\papers\xxx.pdf 并入库 ./literature_ledger。
+使用 $hsi-msi-idea-scout_codex 分析论文 D:\papers\yyy_cvpr2025.pdf 并运行双通道查新。
+使用 $hsi-repo-surgeon_codex 解剖仓库 D:\code\fusion_repo 并封装为 BaseHSIAgentTool。
+使用 $hsi-exp-diagnostician_codex 诊断 gt.npy 与 pred.npy 并生成 SVG 误差图。
+使用 $hsi-agent-reviewer_codex 对论文初稿 D:\paper\draft.tex 进行三视角审稿。
 ```
-
-更多场景化 Prompt 模板见 [`USER_USE.md`](./hsi-msi-idea-scout_codex/USER_USE.md)。
 
 ---
 
