@@ -1,7 +1,7 @@
 ---
-name: hsi-msi-idea-scout_codex
+name: hsi-msi-idea-scout-codex
 description: >-
-  Use this skill when the user provides a single paper (PDF, arXiv/URL, title, text, or
+  【单篇跨域选题与查新】Use this skill when the user provides a single paper (PDF, arXiv/URL, title, text, or
   official code repo) from natural image or medical image domains—ideally a pioneering or
   first-of-its-kind paper/module from the last 2 years of IJCV, TIP, CVPR, NeurIPS, AAAI,
   ICLR, ICCV, ECCV, or TPAMI—and wants to dissect its core innovations or overlooked flaws,

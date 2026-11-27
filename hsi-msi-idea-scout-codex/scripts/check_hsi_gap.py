@@ -76,7 +76,7 @@ def http_get_text(url: str, accept: str = "application/json", timeout: int = 25)
     req = urllib.request.Request(
         url,
         headers={
-            "User-Agent": "hsi-msi-idea-scout_codex/1.1 (Gap Check Script)",
+            "User-Agent": "hsi-msi-idea-scout-codex/1.1 (Gap Check Script)",
             "Accept": accept,
         },
     )

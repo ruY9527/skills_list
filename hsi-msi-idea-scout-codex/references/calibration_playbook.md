@@ -1,6 +1,6 @@
 # Skill Calibration & Continuous Evolution Playbook
 
-A skill starts at ~60% quality on day one and reaches 90%+ through closed-loop calibration on real papers. Run these 3 lightweight calibration steps whenever you refine `hsi-msi-idea-scout_codex`.
+A skill starts at ~60% quality on day one and reaches 90%+ through closed-loop calibration on real papers. Run these 3 lightweight calibration steps whenever you refine `hsi-msi-idea-scout-codex`.
 
 ---
 

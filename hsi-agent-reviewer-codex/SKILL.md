@@ -1,7 +1,7 @@
 ---
-name: hsi-agent-reviewer_codex
+name: hsi-agent-reviewer-codex
 description: >-
-  Use this skill when the user wants a rigorous pre-submission peer-review simulation or
+  【三视角审稿与Rebuttal】Use this skill when the user wants a rigorous pre-submission peer-review simulation or
   rebuttal preparation for a paper, method draft, or research proposal on HSI-MSI image fusion
   or Agent + HSI-MSI image fusion. Simulates 3 strict specialist reviewers (Remote Sensing
   Physics, Top-Venue CV Methodology, and Agent Systems Efficiency) to uncover fatal flaws

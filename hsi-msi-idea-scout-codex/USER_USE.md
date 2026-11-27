@@ -1,6 +1,6 @@
-# `hsi-msi-idea-scout_codex` 使用手册
+# `hsi-msi-idea-scout-codex` 使用手册
 
-本手册用于指导你在 **Codex** 中安装、配置、日常调用与持续迭代 `hsi-msi-idea-scout_codex` 技能包。
+本手册用于指导你在 **Codex** 中安装、配置、日常调用与持续迭代 `hsi-msi-idea-scout-codex` 技能包。
 
 ---
 
@@ -20,7 +20,7 @@
 ## 二、目录结构速览
 
 ```text
-hsi-msi-idea-scout_codex/
+hsi-msi-idea-scout-codex/
 ├── SKILL.md                          # [自动加载] Codex 核心指令与 6 阶段工作流
 ├── USER_USE.md                       # [给人看的] 本使用手册
 ├── scripts/
@@ -46,13 +46,13 @@ hsi-msi-idea-scout_codex/
 **Windows (PowerShell)：**
 ```powershell
 New-Item -ItemType Directory -Force "$HOME\.codex\skills" | Out-Null
-Copy-Item -Recurse -Force "e:\thesis-code\gemini_env\other_action_solution\skills_list\hsi-msi-idea-scout_codex" "$HOME\.codex\skills\hsi-msi-idea-scout_codex"
+Copy-Item -Recurse -Force "e:\thesis-code\gemini_env\other_action_solution\skills_list\hsi-msi-idea-scout-codex" "$HOME\.codex\skills\hsi-msi-idea-scout-codex"
 ```
 
 **macOS / Linux：**
 ```bash
 mkdir -p ~/.codex/skills
-cp -r skills_list/hsi-msi-idea-scout_codex ~/.codex/skills/hsi-msi-idea-scout_codex
+cp -r skills_list/hsi-msi-idea-scout-codex ~/.codex/skills/hsi-msi-idea-scout-codex
 ```
 
 ### 方式 B：项目级安装（仅当前项目生效，可随 Git 共享）
@@ -60,7 +60,7 @@ cp -r skills_list/hsi-msi-idea-scout_codex ~/.codex/skills/hsi-msi-idea-scout_co
 **Windows (PowerShell)：**
 ```powershell
 New-Item -ItemType Directory -Force ".agents\skills" | Out-Null
-Copy-Item -Recurse -Force "skills_list\hsi-msi-idea-scout_codex" ".agents\skills\hsi-msi-idea-scout_codex"
+Copy-Item -Recurse -Force "skills_list\hsi-msi-idea-scout-codex" ".agents\skills\hsi-msi-idea-scout-codex"
 ```
 
 > **生效提示**：复制完成后，重启一次 Codex（CLI 或 IDE 插件）即可自动扫描加载该 Skill。
@@ -85,32 +85,32 @@ Copy-Item -Recurse -Force "skills_list\hsi-msi-idea-scout_codex" ".agents\skills
 
 ## 五、在 Codex 中的 4 种核心使用场景（可直接复制 Prompt）
 
-在 Codex 对话中，最稳妥的方式是通过 **`$hsi-msi-idea-scout_codex`** 显式触发。
+在 Codex 对话中，最稳妥的方式是通过 **`$hsi-msi-idea-scout-codex`** 显式触发。
 
 ### 场景 1：单篇本地 PDF 论文双轨深度拆解（最常用）
 ```text
-使用 $hsi-msi-idea-scout_codex 分析本地论文 D:\papers\xxx_cvpr2025.pdf。
+使用 $hsi-msi-idea-scout-codex 分析本地论文 D:\papers\xxx_cvpr2025.pdf。
 请同时评估迁移到 Track A（HSI-MSI 图像融合）和 Track B（Agent + HSI-MSI 图像融合）的潜力，
 对拆解出的每个子创新点运行双通道反向查新，最后将完整报告保存为 transfer_report.md。
 ```
 
 ### 场景 2：论文 + 官方开源代码联合分析（产出代码级改造蓝图）
 ```text
-使用 $hsi-msi-idea-scout_codex 结合论文 D:\papers\xxx.pdf 与官方源码目录 D:\code\xxx_repo，
+使用 $hsi-msi-idea-scout-codex 结合论文 D:\papers\xxx.pdf 与官方源码目录 D:\code\xxx_repo，
 按 [Full-Text Verified] 深度拆解核心模块，完成 HSI-MSI 反向查新，
 并结合我的 my_baseline_profile.md 给出具体的代码修改点、显存评估与动机诊断实验。
 ```
 
 ### 场景 3：专攻 Track B（Agent + HSI-MSI 图像融合）
 ```text
-使用 $hsi-msi-idea-scout_codex，仅聚焦 Track B（Agent + HSI-MSI 图像融合），
+使用 $hsi-msi-idea-scout-codex，仅聚焦 Track B（Agent + HSI-MSI 图像融合），
 深度分析论文 D:\papers\xxx_iclr2026.pdf。
 重点提炼其决策/反思机制，严格回答审稿人三连问（为何优于 MoE、如何用非 RGB 物理探针感知光谱、大图延迟控制）。
 ```
 
 ### 场景 4：只有标题 / 摘要 / arXiv 链接时的快速初筛
 ```text
-使用 $hsi-msi-idea-scout_codex 快速初筛这篇论文（标题与摘要贴在下面），
+使用 $hsi-msi-idea-scout-codex 快速初筛这篇论文（标题与摘要贴在下面），
 按 [Abstract-Level Triage] 深度判断它有哪些点在 HSI-MSI 融合领域是 Tier 1/Tier 2 空白，
 帮我决定值不值得下载全文精读。
 ```
@@ -125,7 +125,7 @@ Copy-Item -Recurse -Force "skills_list\hsi-msi-idea-scout_codex" ".agents\skills
 
 ### 1. 手动运行双通道反向查新（`check_hsi_gap.py`）
 ```powershell
-D:\software_env\anaconda3\python.exe "$HOME\.codex\skills\hsi-msi-idea-scout_codex\scripts\check_hsi_gap.py" `
+D:\software_env\anaconda3\python.exe "$HOME\.codex\skills\hsi-msi-idea-scout-codex\scripts\check_hsi_gap.py" `
   --concept "rectified flow inverse problem" `
   --synonyms "flow matching,ODE transport,consistency model" `
   --years 3 `
@@ -137,7 +137,7 @@ D:\software_env\anaconda3\python.exe "$HOME\.codex\skills\hsi-msi-idea-scout_cod
 
 ### 2. 手动按 9 大顶会顶刊拉取近 2 年候选论文（`fetch_top_venues.py`）
 ```powershell
-D:\software_env\anaconda3\python.exe "$HOME\.codex\skills\hsi-msi-idea-scout_codex\scripts\fetch_top_venues.py" `
+D:\software_env\anaconda3\python.exe "$HOME\.codex\skills\hsi-msi-idea-scout-codex\scripts\fetch_top_venues.py" `
   --queries "blind image restoration,medical image fusion,agentic image restoration" `
   --months 24 `
   --source both `
@@ -175,7 +175,7 @@ D:\software_env\anaconda3\python.exe "$HOME\.codex\skills\hsi-msi-idea-scout_cod
 ## 九、常见问题排查（FAQ）
 
 * **Q1：在 Codex 里发了论文，但没有触发这个 Skill？**
-  * 确认已复制到 `~/.codex/skills/hsi-msi-idea-scout_codex/`（或 `.agents/skills/`）且重启了 Codex；对话开头显式加上 `$hsi-msi-idea-scout_codex` 即可强制触发。
+  * 确认已复制到 `~/.codex/skills/hsi-msi-idea-scout-codex/`（或 `.agents/skills/`）且重启了 Codex；对话开头显式加上 `$hsi-msi-idea-scout-codex` 即可强制触发。
 * **Q2：Phase 3 查新脚本提示网络错误（Network error）？**
   * Codex 默认沙箱可能关闭了外网。请在运行脚本时批准网络权限，或按第六节在本地终端手动运行 `check_hsi_gap.py` 生成 JSON 后发给 Codex。Skill 会严格遵守红线，绝不会在断网时凭记忆编造“没人做过”。
 * **Q3：如果我提供的论文不是这 9 大顶会顶刊，或者超过了 2 年，还能用吗？**

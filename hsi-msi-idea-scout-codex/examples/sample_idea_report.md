@@ -1,6 +1,6 @@
 # Single-Paper Cross-Domain Transfer Report (Format Template)
 
-> **Note**: This file is the output format anchor for `hsi-msi-idea-scout_codex`. Replace all bracketed placeholders with **verified details from the user-provided paper** and **verified reverse gap-check results** from `scripts/check_hsi_gap.py`. Never fabricate citations or unread equations.
+> **Note**: This file is the output format anchor for `hsi-msi-idea-scout-codex`. Replace all bracketed placeholders with **verified details from the user-provided paper** and **verified reverse gap-check results** from `scripts/check_hsi_gap.py`. Never fabricate citations or unread equations.
 
 ---
 

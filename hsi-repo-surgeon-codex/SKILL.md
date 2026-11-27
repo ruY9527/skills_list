@@ -1,7 +1,7 @@
 ---
-name: hsi-repo-surgeon_codex
+name: hsi-repo-surgeon-codex
 description: >-
-  Use this skill when the user wants to dissect an open-source PyTorch computer vision or
+  【代码解剖与Tool封装】Use this skill when the user wants to dissect an open-source PyTorch computer vision or
   HSI-MSI fusion repository, trace tensor shapes through the forward pass, map paper equations
   to exact code lines, audit GPU memory and spectral-dimension compatibility, or wrap an
   existing fusion/registration/PSF-estimation model into a standardized Agent Tool.

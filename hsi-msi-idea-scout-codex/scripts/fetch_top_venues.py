@@ -95,7 +95,7 @@ def http_get_json(url: str, timeout: int = 25) -> dict[str, Any]:
     req = urllib.request.Request(
         url,
         headers={
-            "User-Agent": "hsi-msi-idea-scout_codex/1.1 (Academic Research Skill)",
+            "User-Agent": "hsi-msi-idea-scout-codex/1.1 (Academic Research Skill)",
             "Accept": "application/json",
         },
     )

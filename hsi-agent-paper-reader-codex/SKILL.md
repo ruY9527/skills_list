@@ -1,7 +1,7 @@
 ---
-name: hsi-agent-paper-reader_codex
+name: hsi-agent-paper-reader-codex
 description: >-
-  Use this skill when the user wants to perform structured deep reading of an HSI-MSI image
+  【论文精读与台账】Use this skill when the user wants to perform structured deep reading of an HSI-MSI image
   fusion paper, a Vision Agent / Agentic Restoration paper, or an Agent+HSI-MSI paper, extract
   standardized technical fields (degradation model, spectral handling, agent state/action/tools,
   datasets, metrics, limitations), and persistently log the paper into a local literature ledger

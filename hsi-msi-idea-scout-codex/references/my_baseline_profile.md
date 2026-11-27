@@ -1,6 +1,6 @@
 # Personal Baseline & Research Profile (Optional Customization)
 
-Fill in this short profile so `hsi-msi-idea-scout_codex` tailors every transfer blueprint directly to **your actual codebase, GPU memory budget, datasets, and target venues**. If left as placeholders, the skill falls back to standard community defaults and notes assumptions explicitly.
+Fill in this short profile so `hsi-msi-idea-scout-codex` tailors every transfer blueprint directly to **your actual codebase, GPU memory budget, datasets, and target venues**. If left as placeholders, the skill falls back to standard community defaults and notes assumptions explicitly.
 
 ## 1. Current Primary Baseline
 - **Baseline Name / Repo Path**: `<e.g., FusionNet / HyperTransformer / MoG-DCN / local path E:\...>`

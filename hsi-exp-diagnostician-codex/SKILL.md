@@ -1,7 +1,7 @@
 ---
-name: hsi-exp-diagnostician_codex
+name: hsi-exp-diagnostician-codex
 description: >-
-  Use this skill when the user wants to audit HSI-MSI image fusion or Agent+HSI-MSI experiment
+  【实验诊断与论文出图】Use this skill when the user wants to audit HSI-MSI image fusion or Agent+HSI-MSI experiment
   results, compute physical/spectral metrics (PSNR, SAM, ERGAS, CC, band-wise error), diagnose
   why PSNR improves while SAM degrades or why an Agent reflection loop diverges, and generate
   publication-grade diagnostic plots (spatial error heatmaps, pixel spectral curves, agent
