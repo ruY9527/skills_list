@@ -6,9 +6,9 @@
 
 ---
 
-## 当前收录（6 个 Skill 构成完整科研闭环）
+## 当前收录（7 个 Skill：6 个科研闭环 + 1 个图文草稿自动化）
 
-| 科研阶段 | Skill | 中文别名 | 简介 | 手册 | 状态 |
+| 阶段 / 分类 | Skill | 中文别名 | 简介 | 手册 | 状态 |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **0. 上游雷达** | [`cross-domain-paper-radar-codex`](./cross-domain-paper-radar-codex) | **【9大顶会跨域论文雷达】** | 借鉴 `M0rtzz/paper-notes` 分类体系，从 9 大顶会顶刊近 2 年论文中按 7 大高共鸣扩展领域（`D1–D7`）定向巡检、与本地台账联动去重、25 分量表快筛 Top 5–10 候选并生成下游深挖指令 | [USER_USE](./cross-domain-paper-radar-codex/USER_USE.md) | 可用 |
 | **1. 跨域选题** | [`hsi-msi-idea-scout-codex`](./hsi-msi-idea-scout-codex) | **【单篇跨域选题与查新】** | 单篇论文跨域迁移分析：把自然/医学等顶会顶刊论文的失效机理，经 OpenAlex + arXiv 双通道查新、隐性前提审计与物理适配，转化为 Track A（HSI-MSI）与 Track B（Agent+HSI-MSI）研究蓝图 | [USER_USE](./hsi-msi-idea-scout-codex/USER_USE.md) | 可用 |
@@ -16,6 +16,7 @@
 | **3. 代码解剖** | [`hsi-repo-surgeon-codex`](./hsi-repo-surgeon-codex) | **【代码解剖与Tool封装】** | AST 自动扫描 PyTorch 开源仓库，输出端到端张量维度流转表、公式-代码行号对照、128+ 波段显存与光谱兼容性审计，并将现有求解器封装为标准 Agent Tool | [USER_USE](./hsi-repo-surgeon-codex/USER_USE.md) | 可用 |
 | **4. 实验诊断** | [`hsi-exp-diagnostician-codex`](./hsi-exp-diagnostician-codex) | **【实验诊断与论文出图】** | 计算 PSNR / SAM / ERGAS / CC 及最差波段与最差像元光谱曲线，诊断空间-光谱权衡与 Agent 反思发散原因，自动输出出版级 SVG 诊断图 | [USER_USE](./hsi-exp-diagnostician-codex/USER_USE.md) | 可用 |
 | **5. 审稿攻防** | [`hsi-agent-reviewer-codex`](./hsi-agent-reviewer-codex) | **【三视角审稿与Rebuttal】** | 投稿前模拟 **遥感物理逆问题 / CV 顶会方法论 / Agent 系统效率** 三位严苛审稿人，按 P0/P1/P2 排查拒稿风险与缺失消融，并辅助起草实证型 Rebuttal | [USER_USE](./hsi-agent-reviewer-codex/USER_USE.md) | 可用 |
+| **内容分发** | [`xhs-douyin-draft-publisher`](./xhs-douyin-draft-publisher) | **【小红书与抖音图文草稿自动化】** | 根据关键词、项目仓库或本地图片生成/适配双平台标题、正文与标签，通过 Windows 原生 Win32 UI 自动化直接写入已登录的小红书 / 抖音 Chrome 标签页草稿箱（不碰 Cookie/Token，永不点击发布） | [USER_USE](./xhs-douyin-draft-publisher/USER_USE.md) | 可用 |
 
 ### 推荐科研闭环串联方式
 
@@ -90,25 +91,35 @@ skills_list/
 │   ├── USER_USE.md
 │   ├── scripts/compute_hsi_metrics.py     # PSNR/SAM/ERGAS/CC + 诊断 SVG
 │   └── references/metric_interpretation_guide.md
-└── hsi-agent-reviewer-codex/              # 5. 【三视角审稿与Rebuttal】
+├── hsi-agent-reviewer-codex/              # 5. 【三视角审稿与Rebuttal】
+│   ├── SKILL.md
+│   ├── USER_USE.md
+│   └── references/
+│       ├── reviewer_personas.md
+│       └── rebuttal_playbook.md
+└── xhs-douyin-draft-publisher/            # 内容分发：【小红书与抖音图文草稿自动化】
     ├── SKILL.md
     ├── USER_USE.md
+    ├── scripts/
+    │   ├── win32_ui.py                    # Win32 底层（DPI/窗口/强前台/剪贴板/文件框/裁剪标定）
+    │   └── publish_draft.py               # 小红书 & 抖音统一草稿保存 CLI（永不点发布）
     └── references/
-        ├── reviewer_personas.md
-        └── rebuttal_playbook.md
+        ├── copywriting_guide.md           # 读图OCR/3:4制图/标题公式/正文/标签与合规规范
+        ├── xiaohongshu_flow.md            # 小红书坐标、缩略图陷阱与验收清单
+        └── douyin_flow.md                 # 抖音与小红书6处差异、干扰元素与验收清单
 ```
 
 ---
 
 ## 快速开始
 
-### 1. 一键安装全部 6 个 Skills 到 Codex（全局，推荐）
+### 1. 一键安装全部 Skills 到 Codex（全局，推荐）
 
 **Windows (PowerShell，在 `skills_list/` 目录下执行)：**
 
 ```powershell
 New-Item -ItemType Directory -Force "$HOME\.codex\skills" | Out-Null
-Get-ChildItem -Directory -Filter "*-codex" | ForEach-Object {
+Get-ChildItem -Directory | Where-Object { Test-Path (Join-Path $_.FullName "SKILL.md") } | ForEach-Object {
     Copy-Item -Recurse -Force $_.FullName (Join-Path "$HOME\.codex\skills" $_.Name)
 }
 ```
@@ -117,7 +128,7 @@ Get-ChildItem -Directory -Filter "*-codex" | ForEach-Object {
 
 ```bash
 mkdir -p ~/.codex/skills
-cp -r *-codex ~/.codex/skills/
+for d in */; do [ -f "$d/SKILL.md" ] && cp -r "$d" ~/.codex/skills/; done
 ```
 
 复制完成后重启 Codex 即可自动扫描加载。如果只需安装单个 skill 或项目级安装（`.agents/skills/`），请查看各自目录下的 `USER_USE.md`。
@@ -137,6 +148,7 @@ cp -r *-codex ~/.codex/skills/
 使用 $hsi-repo-surgeon-codex 解剖仓库 D:\code\fusion_repo 并封装为 BaseHSIAgentTool。
 使用 $hsi-exp-diagnostician-codex 诊断 gt.npy 与 pred.npy 并生成 SVG 误差图。
 使用 $hsi-agent-reviewer-codex 对论文初稿 D:\paper\draft.tex 进行三视角审稿。
+使用 $xhs-douyin-draft-publisher 读取本地图片并生成适配小红书与抖音的文案，保存到已登录的草稿箱（不要发布）。
 ```
 
 ---
