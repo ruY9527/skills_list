@@ -183,6 +183,26 @@ def compute_triage_hint(title: str, abstract: str, cited_by: int, year: int | No
     return round(kw_score + cite_score, 2), matched
 
 
+def infer_direct_pdf_url(url: str) -> str:
+    """Derive a legal public PDF URL for standard open-access repositories."""
+    if not url:
+        return ""
+    u = url.strip()
+    if u.lower().endswith(".pdf"):
+        return u
+    # OpenReview forum -> direct PDF
+    if "openreview.net/forum?id=" in u:
+        return u.replace("openreview.net/forum?id=", "openreview.net/pdf?id=")
+    # arXiv abs -> direct PDF
+    m_arxiv = re.search(r"arxiv\.org/abs/([^\s?#]+)", u)
+    if m_arxiv:
+        return f"https://arxiv.org/pdf/{m_arxiv.group(1)}.pdf"
+    # CVF Open Access html -> PDF
+    if "openaccess.thecvf.com/content/" in u and "/html/" in u and u.endswith("_paper.html"):
+        return u.replace("/html/", "/papers/").replace("_paper.html", "_paper.pdf")
+    return ""
+
+
 def fetch_dblp_stream(
     query: str,
     domain_tag: str,
@@ -243,11 +263,53 @@ def fetch_dblp_stream(
                 "cited_by_count": 0,
                 "doi": f"https://doi.org/{doi}" if doi and not doi.startswith("http") else doi,
                 "url": paper_url,
+                "pdf_url": infer_direct_pdf_url(paper_url),
+                "is_oa": bool(infer_direct_pdf_url(paper_url)),
+                "oa_status": "open" if infer_direct_pdf_url(paper_url) else "unknown",
                 "abstract": "",
                 "abstract_verified": False,
             }
         )
     return results
+
+
+def extract_openalex_pdf(work: dict[str, Any]) -> tuple[str, bool, str]:
+    oa = work.get("open_access") or {}
+    is_oa = bool(oa.get("is_oa"))
+    oa_status = str(oa.get("oa_status") or ("open" if is_oa else "closed"))
+
+    candidates: list[str] = []
+    best_oa = work.get("best_oa_location") or {}
+    if isinstance(best_oa, dict):
+        if best_oa.get("pdf_url"):
+            candidates.append(str(best_oa["pdf_url"]))
+        if best_oa.get("landing_page_url"):
+            inferred = infer_direct_pdf_url(str(best_oa["landing_page_url"]))
+            if inferred:
+                candidates.append(inferred)
+
+    primary = work.get("primary_location") or {}
+    if isinstance(primary, dict) and primary.get("pdf_url"):
+        candidates.append(str(primary["pdf_url"]))
+
+    if oa.get("oa_url"):
+        oa_u = str(oa["oa_url"])
+        inferred = infer_direct_pdf_url(oa_u)
+        candidates.append(inferred or oa_u)
+
+    for loc in work.get("locations") or []:
+        if isinstance(loc, dict):
+            if loc.get("pdf_url"):
+                candidates.append(str(loc["pdf_url"]))
+            elif loc.get("landing_page_url"):
+                inferred = infer_direct_pdf_url(str(loc["landing_page_url"]))
+                if inferred:
+                    candidates.append(inferred)
+
+    for c in candidates:
+        if c and c.startswith("http"):
+            return c, True, oa_status
+    return "", is_oa, oa_status
 
 
 def enrich_with_openalex(paper: dict[str, Any], mailto: str | None) -> None:
@@ -279,6 +341,11 @@ def enrich_with_openalex(paper: dict[str, Any], mailto: str | None) -> None:
                 paper["publication_date"] = w["publication_date"]
             if w.get("id"):
                 paper["openalex_id"] = w["id"]
+            pdf_url, is_oa, oa_status = extract_openalex_pdf(w)
+            if pdf_url and not paper.get("pdf_url"):
+                paper["pdf_url"] = pdf_url
+            paper["is_oa"] = bool(paper.get("pdf_url")) or is_oa
+            paper["oa_status"] = oa_status
             return
 
 

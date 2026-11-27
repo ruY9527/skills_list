@@ -19,7 +19,7 @@
 
 ### [#1] `<Exact Verified Paper Title>` — `P0 (Immediate Deep-Dive)`
 - **Metadata**: `<First Author et al.>` | **`<Venue YYYY>`** | Domain: `<D2 / D4>` | Score: **`<23/25>`** (`Pioneering 5 + Iso 5 + InfoGap 5 + Repro 4 + Recency 4`)
-- **Verifiable Link**: `<DOI / CVF / OpenReview / IEEE URL>` | Code: `<GitHub URL or Not Listed>`
+- **Links & Download**: Landing: `<DOI / CVF / OpenReview URL>` | **PDF**: `<Direct OA PDF URL or 'Institutional Access Required'>` (`<oa_status>`) | Code: `<GitHub URL or Not Listed>`
 - **5-Minute Core Summary**:
   1. **Overlooked Problem**: `<What exact flaw in natural/medical/agent vision did it expose?>`
   2. **Core Mechanism**: `<The transferable mathematical operator, prior, or agentic loop.>`

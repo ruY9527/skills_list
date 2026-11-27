@@ -50,13 +50,21 @@ Copy-Item -Recurse -Force ".\cross-domain-paper-radar-codex" "$HOME\.codex\skill
 # 查看内置 7 大领域及对应检索词簇
 D:\software_env\anaconda3\python.exe "$HOME\.codex\skills\cross-domain-paper-radar-codex\scripts\radar_scan.py" --list-domains
 
-# 定向扫描 D2 + D4 近 24 个月 9 大顶会顶刊论文并自动排除已读台账
+# 定向扫描 D2 + D4 近 24 个月 9 大顶会顶刊论文并自动提取 OA PDF 下载链接
 D:\software_env\anaconda3\python.exe "$HOME\.codex\skills\cross-domain-paper-radar-codex\scripts\radar_scan.py" `
   --domains "D2,D4" `
   --months 24 `
   --max-per-venue 8 `
   --exclude-ledger ./literature_ledger/ledger.csv `
   --output radar_candidates.json
+
+# 一键下载第 1、2 篇开放获取（OA）PDF 到 ./downloaded_papers（自动校验 %PDF 文件头）
+D:\software_env\anaconda3\python.exe "$HOME\.codex\skills\cross-domain-paper-radar-codex\scripts\download_papers.py" `
+  --input radar_candidates.json `
+  --indices "1,2" `
+  --output-dir ./downloaded_papers
 ```
 
-> **提示**：对于最近 1–2 个月刚放榜、DBLP 尚未收录的极少数顶会论文，你也可以把从 OpenReview / CVF / `papernotes.org` 导出的 JSON 通过 `--extra-json` 合并进来一起打分筛选。
+> **提示**：
+> - `download_papers.py` 仅下载合法开放获取（CVF / OpenReview / arXiv / OpenAlex OA）的 PDF；对于需机构权限的付费墙期刊（如部分 IEEE TIP/TPAMI），会自动跳过并输出官方 DOI 链接供你通过校园网下载。
+> - 对于最近 1–2 个月刚放榜、DBLP 尚未收录的极少数顶会论文，你也可以把从 OpenReview / CVF / `papernotes.org` 导出的 JSON 通过 `--extra-json` 合并进来一起打分筛选。

@@ -24,7 +24,8 @@ This skill acts as **Stage 0 (Upstream Discovery Radar)** in the graduate resear
 
 Executable deterministic helpers (always resolve paths relative to `<SKILL_DIR>`):
 
-- Dual-engine 9-venue radar scanner (DBLP exact streams + OpenAlex enrichment + ledger deduplication): [scripts/radar_scan.py](./scripts/radar_scan.py)
+- Dual-engine 9-venue radar scanner (DBLP exact streams + OpenAlex enrichment + OA PDF URL extraction + ledger deduplication): [scripts/radar_scan.py](./scripts/radar_scan.py)
+- Legal Open-Access PDF batch downloader (validates `%PDF` header, skips paywalls cleanly): [scripts/download_papers.py](./scripts/download_papers.py)
 - Shortlist Markdown/JSON exporter: [scripts/export_shortlist.py](./scripts/export_shortlist.py)
 
 ## Codex Execution Notes
@@ -67,12 +68,21 @@ Read [references/scoring_rubric.md](./references/scoring_rubric.md). Inspect the
 
 Keep only the **Top 5–10 papers** scoring **$\ge 18/25$** (or clearly note if fewer pass the bar).
 
-### Phase 3: Generate "5-Minute Core Insight" Radar Brief
+### Phase 3: Generate "5-Minute Core Insight" Radar Brief & Download Info
 Follow [examples/sample_radar_brief.md](./examples/sample_radar_brief.md). For each shortlisted paper, write a crisp, high-density card:
-- Exact verified metadata (title, authors, venue & year strictly within the 9 venues & 24 months, domain tag `D1–D7`, 25-point score breakdown, DOI/URL, code link if present).
+- Exact verified metadata (title, authors, venue & year strictly within the 9 venues & 24 months, domain tag `D1–D7`, 25-point score breakdown, DOI/URL, **OA PDF download URL & OA status**, and code link if present).
 - **5-Minute Core Summary (3 crisp sentences)**: overlooked problem + core mechanism + verified takeaway.
 - **Why It Helps Your Research (Track A / Track B)**: exact HSI-MSI or Agent+HSI-MSI hook.
 - **Action Priority**: `P0 (Deep-Dive Immediately)` / `P1 (Watchlist)` / `P2 (Related Work)`.
+
+If the user asks to download the `P0` PDFs (or if network is enabled), run `scripts/download_papers.py` to fetch legal Open-Access PDFs directly into `./downloaded_papers/` (never bypass paywalls; flag closed-access IEEE/Springer papers for institutional download):
+
+```bash
+python <SKILL_DIR>/scripts/download_papers.py \
+  --input radar_candidates.json \
+  --indices "1,2" \
+  --output-dir ./downloaded_papers
+```
 
 Optionally run `scripts/export_shortlist.py` to persist a clean Markdown/JSON shortlist artifact.
 
