@@ -1,0 +1,211 @@
+{
+  "name": "cross-domain-paper-radar-codex",
+  "stage": 0,
+  "stageName": "雷达发现",
+  "alias": "9大顶会跨域论文雷达",
+  "tagline": "从 9 大顶会顶刊近 24 个月论文中，筛出真正值得深挖的 Top 5–10。",
+  "description": "面向 Agent + HSI-MSI 研究的上游发现雷达。按 D1–D7 定向检索，联动本地台账去重，基于真实摘要做 25 分快筛，并输出开放获取 PDF 信息与下游深挖指令。",
+  "audience": "需要稳定追踪跨领域前沿、又不愿被低信号论文清单淹没的研究者。",
+  "inputs": [
+    "1–2 个 D1–D7 目标领域",
+    "目标轨道与滚动检索窗口",
+    "可选 literature_ledger/ledger.csv 与外部 JSON"
+  ],
+  "outputs": [
+    "radar_candidates.json",
+    "Top 5–10 雷达简报",
+    "OA PDF 与 P0 深挖 Prompt"
+  ],
+  "tags": [
+    "DBLP + OpenAlex",
+    "25 分快筛",
+    "OA PDF"
+  ],
+  "inputArtifact": "领域、轨道、时间窗与已读台账",
+  "action": "双引擎检索、去重、摘要核验与五维评分",
+  "outputArtifact": "Top 5–10 候选 & OA PDF",
+  "handoffLabel": "Top 5–10 候选 & OA PDF",
+  "next": "hsi-msi-idea-scout-codex",
+  "nextText": "把 P0 论文的 PDF 与代码交给单篇跨域选题，逐点执行反向查新并生成物理适配蓝图。",
+  "why": [
+    {
+      "pain": "普通问 AI 容易凭训练记忆罗列“热门论文”，出处、时间与 OA 链接难以复核。",
+      "benefit": "radar_scan.py 走 DBLP 精确流与 OpenAlex 补全，保留可验证元数据，网络不可用时明确停下。"
+    },
+    {
+      "pain": "人工跨 9 个 venue 搜索，重复论文、综述和已读文献消耗大量筛选时间。",
+      "benefit": "限定 9 大 venue 与滚动窗口，默认排除综述，并可读取 ledger.csv 自动跳过已读论文。"
+    },
+    {
+      "pain": "只看标题就决定精读，常常读完后才发现与 HSI-MSI 没有机制共鸣。",
+      "benefit": "基于真实摘要做 5 维 25 分评分，保留 ≥18/25 的 Top 5–10，并写清 Track A / B 迁移钩子。"
+    },
+    {
+      "pain": "找到论文后还要手工整理 PDF、优先级与下一步指令，流程容易中断。",
+      "benefit": "download_papers.py 仅下载合法 OA PDF 并校验文件头，简报末尾直接生成 P0 深挖 Prompt。"
+    }
+  ],
+  "phases": [
+    {
+      "name": "Phase 0",
+      "title": "锁定雷达任务",
+      "text": "选择 1–2 个领域、9 大 venue、24 个月窗口与 Track A / B / 双轨，检查已读台账。"
+    },
+    {
+      "name": "Phase 1",
+      "title": "检索与去重",
+      "text": "运行 radar_scan.py，通过领域预设或自定义 queries 获取候选，支持 --extra-json 合并。"
+    },
+    {
+      "name": "Phase 2",
+      "title": "25 分快筛",
+      "text": "依据真实摘要评估首创性、同构性、信息差、可复现性与时效影响力。"
+    },
+    {
+      "name": "Phase 3",
+      "title": "简报与下载",
+      "text": "生成 5 分钟洞察卡，标记 P0/P1/P2；按需下载 OA PDF、导出 Markdown shortlist。"
+    },
+    {
+      "name": "Phase 4",
+      "title": "审计与接力",
+      "text": "核对反模式红线，为前 1–2 篇 P0 论文生成单篇跨域选题 Prompt。"
+    }
+  ],
+  "promptFields": [
+    {
+      "key": "domains",
+      "label": "巡检领域（每次 1–2 个）",
+      "type": "checkboxes",
+      "default": [
+        "D2",
+        "D4"
+      ],
+      "min": 1,
+      "max": 2,
+      "options": [
+        {
+          "value": "D1",
+          "label": "D1 · 自然图像逆问题"
+        },
+        {
+          "value": "D2",
+          "label": "D2 · 医学融合与重建"
+        },
+        {
+          "value": "D3",
+          "label": "D3 · 生成式先验"
+        },
+        {
+          "value": "D4",
+          "label": "D4 · 视觉智能体"
+        },
+        {
+          "value": "D5",
+          "label": "D5 · 高效长程表征"
+        },
+        {
+          "value": "D6",
+          "label": "D6 · 自适应与不确定性"
+        },
+        {
+          "value": "D7",
+          "label": "D7 · 科学计算成像"
+        }
+      ]
+    },
+    {
+      "key": "track",
+      "label": "目标轨道",
+      "type": "select",
+      "default": "Dual Track",
+      "options": [
+        "Dual Track",
+        "Track A · HSI-MSI",
+        "Track B · Agent + HSI-MSI"
+      ]
+    },
+    {
+      "key": "top",
+      "label": "短名单数量（5–10）",
+      "type": "number",
+      "default": 8,
+      "min": 5,
+      "max": 10
+    }
+  ],
+  "preview": {
+    "title": "radar_brief_D2_D4.md · 结构预览",
+    "headers": [
+      "Rank",
+      "Priority",
+      "Domain",
+      "Track",
+      "Score",
+      "Verified title"
+    ],
+    "rows": [
+      [
+        "1",
+        "P0",
+        "D2",
+        "Track A",
+        "23/25",
+        "<实际检索与摘要核验后的论文>"
+      ],
+      [
+        "2",
+        "P1",
+        "D4",
+        "Track B",
+        "19/25",
+        "<实际检索与摘要核验后的论文>"
+      ]
+    ],
+    "note": "示例分值仅展示格式；真实报告必须来自检索结果。另含 OA 状态、DOI/URL、5 分钟核心摘要与 P0 下游 Prompt。"
+  },
+  "icon": "radar",
+  "fileDescriptions": [
+    {
+      "path": "SKILL.md",
+      "desc": "五阶段雷达流程、评分约束与离线红线。"
+    },
+    {
+      "path": "USER_USE.md",
+      "desc": "D1–D7 速查、调用 Prompt 与手动脚本示例。"
+    },
+    {
+      "path": "scripts/radar_scan.py",
+      "desc": "DBLP 9 大精确流、OpenAlex 补全、领域预设与台账去重。"
+    },
+    {
+      "path": "scripts/download_papers.py",
+      "desc": "合法 OA PDF 下载、%PDF 文件头校验与状态清单。"
+    },
+    {
+      "path": "scripts/export_shortlist.py",
+      "desc": "从候选 JSON 导出 Markdown 短名单。"
+    },
+    {
+      "path": "references/venue_whitelist.md",
+      "desc": "9 大 venue 白名单、DBLP stream ID 与时间窗口规则。"
+    },
+    {
+      "path": "references/domain_taxonomy_lexicon.md",
+      "desc": "D1–D7 扩展领域与 curated English query 词簇。"
+    },
+    {
+      "path": "references/scoring_rubric.md",
+      "desc": "5 维 25 分首创性与可迁移性量表。"
+    },
+    {
+      "path": "references/anti_patterns.md",
+      "desc": "雷达专属反模式与引用真实性红线。"
+    },
+    {
+      "path": "examples/sample_radar_brief.md",
+      "desc": "雷达简报、比较矩阵与下游 Prompt 格式锚点。"
+    }
+  ],
+  "promptTemplate": "使用 $cross-domain-paper-radar-codex，从 9 大顶会顶刊近 24 个月中巡检 {{domains:plus}}，目标为 {{track}}。\n如果当前目录存在 ./literature_ledger/ledger.csv，请自动去重并跳过已读论文。\n基于真实检索摘要保持高信噪比，按 25 分量表筛出 Top {{top}} 篇高价值论文，生成“5分钟洞察”雷达简报并保存为 radar_brief_{{domains:underscore}}.md。\n请列出 OA PDF 状态，并在文末为前 2 篇 P0 论文附带可直接交给 $hsi-msi-idea-scout-codex 的深挖 Prompt。"
+}

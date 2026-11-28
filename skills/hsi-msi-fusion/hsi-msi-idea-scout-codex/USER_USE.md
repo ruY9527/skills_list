@@ -23,6 +23,7 @@
 hsi-msi-idea-scout-codex/
 ├── SKILL.md                          # [自动加载] Codex 核心指令与 6 阶段工作流
 ├── USER_USE.md                       # [给人看的] 本使用手册
+├── skill.meta.json                   # [网站数据] 高质量文案与声明式 Prompt 模板
 ├── scripts/
 │   ├── check_hsi_gap.py              # [核心脚本] OpenAlex + arXiv 双通道反向查新（零外部依赖）
 │   └── fetch_top_venues.py           # [辅助脚本] DBLP + OpenAlex 9 大顶会顶刊近 2 年论文检索
@@ -41,26 +42,32 @@ hsi-msi-idea-scout-codex/
 
 ## 三、安装到 Codex（二选一）
 
+仓库源路径：`skills/hsi-msi-fusion/hsi-msi-idea-scout-codex/`。以下命令均在 `skills_list/` 仓库根目录执行，安装脚本自动排除 `__pycache__/` 与 `*.pyc`。
+
 ### 方式 A：全局安装（推荐，本机所有项目均可直接调用）
 
 **Windows (PowerShell)：**
 ```powershell
-New-Item -ItemType Directory -Force "$HOME\.codex\skills" | Out-Null
-Copy-Item -Recurse -Force "e:\thesis-code\gemini_env\other_action_solution\skills_list\hsi-msi-idea-scout-codex" "$HOME\.codex\skills\hsi-msi-idea-scout-codex"
+.\scripts\install_skills.ps1 -Skill hsi-msi-idea-scout-codex
 ```
 
 **macOS / Linux：**
 ```bash
-mkdir -p ~/.codex/skills
-cp -r skills_list/hsi-msi-idea-scout-codex ~/.codex/skills/hsi-msi-idea-scout-codex
+./scripts/install_skills.sh --skill hsi-msi-idea-scout-codex
 ```
+
+默认扁平安装到 `~/.codex/skills/hsi-msi-idea-scout-codex/`，不会保留仓库的分类层级。
 
 ### 方式 B：项目级安装（仅当前项目生效，可随 Git 共享）
 
 **Windows (PowerShell)：**
 ```powershell
-New-Item -ItemType Directory -Force ".agents\skills" | Out-Null
-Copy-Item -Recurse -Force "skills_list\hsi-msi-idea-scout-codex" ".agents\skills\hsi-msi-idea-scout-codex"
+.\scripts\install_skills.ps1 -Skill hsi-msi-idea-scout-codex -Target ".agents\skills"
+```
+
+**macOS / Linux：**
+```bash
+./scripts/install_skills.sh --skill hsi-msi-idea-scout-codex --target ".agents/skills"
 ```
 
 > **生效提示**：复制完成后，重启一次 Codex（CLI 或 IDE 插件）即可自动扫描加载该 Skill。
@@ -168,7 +175,7 @@ D:\software_env\anaconda3\python.exe "$HOME\.codex\skills\hsi-msi-idea-scout-cod
 
 1. **升级黄金样例**：挑出你最满意的一份 `[Full-Text Verified]` 真实报告，替换掉 `examples/sample_idea_report.md` 中的占位符模板，Codex 后续输出质量会显著跃升。
 2. **反哺红线与词典**：遇到新的实验踩坑（如某模块在 128 波段显存爆炸或 SAM 恶化）记入 `references/anti_patterns.md`；发现新的高质量映射记入 `references/transfer_bridge_map.md`。
-3. **定期同步**：如果你在项目 `skills_list/` 下修改了 Skill，记得重新执行一次第三节的 `Copy-Item` 同步到 `~/.codex/skills/`。
+3. **定期同步**：如果你在项目 `skills_list/` 下修改了 Skill，重新执行第三节的 `install_skills.ps1` 或 `install_skills.sh` 即可刷新扁平安装目录。
 
 ---
 

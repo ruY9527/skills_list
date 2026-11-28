@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="面向 Agent + HSI-MSI 图像融合研究的 6 环 Codex Skills 全周期科研套件：论文雷达、跨域选题、精读台账、代码解剖、实验诊断与三视角审稿。">
+  <meta name="theme-color" content="#f7f8fc">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="HSI-MSI × Agent Skills · 6 环科研闭环">
+  <meta property="og:description" content="从顶会雷达到投稿前审稿，把科研经验沉淀成可复用、可审计的 Codex 工作流。">
+  <meta property="og:url" content="https://ruY9527.github.io/skills_list/">
+  <title>HSI-MSI × Agent Skills · 6 环科研闭环</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x2='1' y2='1'%3E%3Cstop stop-color='%234F46E5'/%3E%3Cstop offset='.5' stop-color='%2306B6D4'/%3E%3Cstop offset='1' stop-color='%23F59E0B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M14 38c8-20 13 20 22 0s12 12 16-8' fill='none' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('skills-site-theme');
+        document.documentElement.dataset.theme = saved === 'dark' ? 'dark' : 'light';
+      } catch (error) {
+        document.documentElement.dataset.theme = 'light';
+      }
+    }());
+  </script>
+  <link rel="stylesheet" href="./assets/style.css">
+  <script defer src="./data/skills_data.js"></script>
+  <script defer src="./assets/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5m6 6-6-6 6-6"/></symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-3.9c.04-1-.35-1.96-1.1-2.6 3.6-.4 7.1-1.8 7.1-7.6 0-1.7-.6-3.1-1.6-4.2.2-.4.7-2-.1-4.1 0 0-1.4-.4-4.4 1.6a15.2 15.2 0 0 0-8 0C3.9-.7 2.5-.3 2.5-.3c-.8 2.1-.3 3.7-.1 4.1a6.1 6.1 0 0 0-1.6 4.2c0 5.8 3.5 7.2 7.1 7.6-.6.5-1 1.3-1.1 2.2-.9.4-3.2 1.1-4.6-1.3-.9-1.5-2.1-1.7-2.1-1.7-1.4 0-.1.9-.1.9.9.4 1.5 2 1.5 2 .8 2.5 4.9 1.7 5.8 1.4V22"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8m-8 4h6"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3m6 0h4"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5ZM19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7Z"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7Z"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5Z"/><path d="M4 5.5v14A2.5 2.5 0 0 0 6.5 22H20"/></symbol>
+    <symbol id="i-ledger" viewBox="0 0 24 24"><path d="M5 3h14v18H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M8 3v18m4-13h4m-4 4h4m-4 4h3"/></symbol>
+    <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="m12 12 6-6M12 4V2M4 12H2"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5Z"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 8-4 4 4 4m8-8 4 4-4 4m-3-11-2 14"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10m6 10V4m6 16v-7m4 7H2"/></symbol>
+    <symbol id="i-review" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-3 6.2L21 21l-1-4a8 8 0 0 0 0-6Z"/><path d="m8 12 2.5 2.5L16 9"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 20h16"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5M4 20h16"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v2m1-15a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2"/></symbol>
+    <symbol id="i-workflow" viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 6h6a3 3 0 0 1 3 3v6m-3-3 3 3 3-3"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="9" cy="6" r="2" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="8" cy="18" r="2" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6m0-6-9 9"/><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H4l2-3a8 8 0 1 1 15-5Z"/><path d="M8 11h8m-8 4h5"/></symbol>
+  </svg>
+
+  <header class="site-header" id="top">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="HSI-MSI × Agent Skills 首页">
+        <svg class="brand-mark" viewBox="0 0 44 44" role="img" aria-label="光谱标志">
+          <defs><linearGradient id="brand-gradient" x1="4" y1="4" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop stop-color="#4F46E5"/><stop offset=".52" stop-color="#06B6D4"/><stop offset="1" stop-color="#F59E0B"/></linearGradient></defs>
+          <rect x="2" y="2" width="40" height="40" rx="12" fill="url(#brand-gradient)"/>
+          <path d="M9 26c5-15 8 15 14 0s7 7 12-6" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"/>
+          <path d="M10 13h24M10 34h24" stroke="white" stroke-opacity=".45" stroke-width="1"/>
+        </svg>
+        <span class="brand-copy"><span class="brand-name">HSI-MSI × Agent</span><span class="brand-subtitle">Research Skills</span></span>
+      </a>
+      <nav class="nav-links" aria-label="主要导航">
+        <a href="#pipeline">科研闭环</a><a href="#scenarios">场景快选</a><a href="#skills">Skills 目录</a><a href="#install">快速安装</a><a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav-actions">
+        <label class="search-box" for="skill-search">
+          <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+          <input id="skill-search" type="search" placeholder="搜索 SAM、查新、审稿…" autocomplete="off" aria-controls="skills-grid">
+          <kbd class="search-key">Ctrl K</kbd>
+        </label>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="切换深色主题" aria-pressed="false" title="切换深色主题"><svg class="icon" aria-hidden="true"><use id="theme-icon" href="#i-moon"></use></svg></button>
+        <a class="icon-button repo-link" href="https://github.com/ruY9527/skills_list" target="_blank" rel="noopener noreferrer" aria-label="在 GitHub 查看仓库" title="GitHub 仓库"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg><span>GitHub</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="hero-badge"><span class="status-dot"></span> AGENT + HSI-MSI · RESEARCH WORKFLOWS</div>
+            <h1 id="hero-title">把科研的每一步，<br>变成<span class="gradient-text">可复用的工作流</span></h1>
+            <p class="hero-description">以 <strong>Agent + HSI-MSI 图像融合</strong>全链路为首个专题的可扩展 Codex 技能目录。二级分类自动汇聚真实脚本、证据约束与专题接力，也为未来的独立 Skill 保留清晰位置。</p>
+            <div class="hero-actions">
+              <a class="button button-primary" id="workflow-cta" href="#pipeline">探索专题工作流 <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
+              <a class="button button-secondary" href="#install"><svg class="icon" aria-hidden="true"><use href="#i-terminal"></use></svg> 一键安装全部 Skills</a>
+            </div>
+            <div class="hero-note"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> 纯静态 · 数据自动构建 · 零 CDN · 本地双击可用</div>
+          </div>
+          <div class="hero-visual" aria-label="专题科研工作流预览">
+            <div class="research-console">
+              <div class="console-bar"><span class="console-dots"><i></i><i></i><i></i></span><span id="console-workflow-name">research_pipeline.workflow</span><span id="console-stage-count">— STAGES</span></div>
+              <div class="console-body">
+                <div class="console-title"><strong id="console-workflow-title">Agent + HSI-MSI research loop</strong><span>READY</span></div>
+                <div id="console-stages"></div>
+                <div class="spectrum-line" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="console-caption"><span>400 nm</span><span>SPECTRAL EVIDENCE</span><span>2500 nm</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-stats" aria-label="核心统计">
+          <div class="stat-item"><div class="stat-value"><span id="stat-skill-count">—</span> <small>SKILLS</small></div><div class="stat-label">目录化科研技能 · 自动构建</div></div>
+          <div class="stat-item"><div class="stat-value"><span id="stat-category-count">—</span> <small>CATEGORIES</small></div><div class="stat-label">二级分类 · 按需扩展</div></div>
+          <div class="stat-item"><div class="stat-value"><span id="stat-script-count">—</span> <small>PY SCRIPTS</small></div><div class="stat-label">真实脚本 · 由文件清单计算</div></div>
+          <div class="stat-item"><div class="stat-value">STD <small>LIB FIRST</small></div><div class="stat-label">核心检索/台账零外部依赖；指标出图按需 numpy/matplotlib</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="pipeline" aria-labelledby="pipeline-title">
+      <div class="container">
+        <div class="section-heading"><div><p class="section-kicker">01 · Topic Workflows</p><h2 class="section-title" id="pipeline-title">一张图，看懂专题接力</h2><p class="section-lead">仅 hasWorkflow=true 的分类进入这里。每个节点接收上游产物、完成明确动作，再把结构化结果交给下一环；独立 Skill 留在目录中，不强行绑定流程。</p></div><p class="section-count" id="pipeline-count">TOPIC WORKFLOW</p></div>
+        <div class="workflow-tabs" id="workflow-tabs" role="tablist" aria-label="切换专题工作流" hidden></div>
+        <div class="pipeline-flow" id="pipeline-flow" aria-label="专题科研工作流"></div>
+        <div class="stage-summary" id="stage-summary" aria-live="polite"></div>
+        <div class="stage-detail-action"><button class="button button-secondary" id="stage-detail-button" type="button" data-open-skill="cross-domain-paper-radar-codex">打开完整指南</button></div>
+      </div>
+    </section>
+
+    <section class="section" id="scenarios" aria-labelledby="scenarios-title">
+      <div class="container">
+        <div class="section-heading"><div><p class="section-kicker">02 · Scenario Picker</p><h2 class="section-title" id="scenarios-title">我现在卡在哪？</h2><p class="section-lead">不用先记 Skill 名称。选中眼前的痛点，直达对应详情与可实时编辑的 Prompt 生成器。</p></div><p class="section-count" id="scenario-count">高频科研断点</p></div>
+        <div class="scenario-grid" id="scenario-grid"></div>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="skills" aria-labelledby="skills-title">
+      <div class="container">
+        <div class="section-heading"><div><p class="section-kicker">03 · Skill Directory</p><h2 class="section-title" id="skills-title">技能目录，各就其位</h2><p class="section-lead">分类与关键词可以叠加筛选。每张卡片都连接一份由真实目录生成的完整指南，未来新增 Skill 无需修改前端。</p></div><div><p class="section-count" id="skill-count" aria-live="polite">正在读取 Skill 目录…</p><button class="relay-link" id="clear-search" type="button" hidden>清除筛选</button></div></div>
+        <div class="category-filters" id="category-filters" aria-label="按分类筛选 Skill"></div>
+        <div class="skills-grid" id="skills-grid"></div>
+        <div class="empty-state" id="skills-empty" hidden><svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg><h3>没有匹配的 Skill</h3><p>试试切换分类，或搜索“SAM”“查新”“PDF”“审稿”。</p><button class="button button-secondary" type="button" data-clear-search>清除全部筛选</button></div>
+      </div>
+    </section>
+
+    <section class="section" id="install" aria-labelledby="install-title">
+      <div class="container">
+        <div class="section-heading"><div><p class="section-kicker">04 · Quick Start</p><h2 class="section-title" id="install-title">两分钟，跑通整个套件</h2><p class="section-lead">在仓库根目录执行命令，复制到 <code>~/.codex/skills/</code>，重启 Codex 后用 <code>$&lt;skill-name&gt;</code> 或中文别名触发。</p></div><p class="section-count">Windows · macOS · Linux</p></div>
+        <div class="install-grid">
+          <div id="global-install-code"></div>
+          <div class="install-notes">
+            <article class="note-card"><h3><svg class="icon" aria-hidden="true"><use href="#i-terminal"></use></svg> Python 环境</h3><p>核心检索、查新、台账与仓库扫描脚本仅使用 Python 3 标准库；指标出图脚本按需使用 <code>numpy/matplotlib</code>。Windows 如遇 <code>python</code> 别名冲突，可改用 <code>py -3</code> 或解释器完整路径。</p></article>
+            <article class="note-card"><h3><svg class="icon" aria-hidden="true"><use href="#i-sliders"></use></svg> 个人 Baseline</h3><p>在 <code>my_baseline_profile.md</code> 填写显存、数据集、目标 venue 与主力 Baseline，让迁移蓝图贴合真实约束。</p><p style="margin-top:10px"><a href="https://github.com/ruY9527/skills_list/blob/main/skills/hsi-msi-fusion/hsi-msi-idea-scout-codex/references/my_baseline_profile.md" target="_blank" rel="noopener noreferrer">查看配置文件 →</a></p></article>
+          </div>
+        </div>
+        <div class="network-card">
+          <div class="network-copy"><h3><svg class="icon" aria-hidden="true"><use href="#i-radar"></use></svg> 联网检索必看配置</h3><p>Windows 编辑 <code>%USERPROFILE%\.codex\config.toml</code>；macOS / Linux 编辑 <code>~/.codex/config.toml</code>。加入右侧配置并重启 Codex，也可以先在本机终端运行真实脚本。</p><p class="dns-example">典型 DNS 报错：&lt;urlopen error [Errno 11001] getaddrinfo failed&gt;</p></div>
+          <div class="inline-code-panel" id="network-config-code"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-heading"><div><p class="section-kicker">05 · Field Notes</p><h2 class="section-title" id="faq-title">开始前，先把坑填平</h2><p class="section-lead">安装、联网、更新、OA 下载和本地预览的高频问题，集中在这里。</p></div><p class="section-count" id="faq-count">实用问答</p></div>
+        <div class="faq-list" id="faq-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand"><svg class="brand-mark" viewBox="0 0 44 44" aria-hidden="true"><rect x="2" y="2" width="40" height="40" rx="12" fill="#4F46E5"/><path d="M9 26c5-15 8 15 14 0s7 7 12-6" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"/></svg><span>HSI-MSI × Agent Skills</span></div>
+      <div class="footer-meta"><p>真实脚本 · 证据约束 · 可复用工作流</p><p>Semantic HTML + CSS + Vanilla JS · <a href="https://github.com/ruY9527/skills_list" target="_blank" rel="noopener noreferrer">GitHub 仓库</a></p></div>
+    </div>
+  </footer>
+
+  <dialog class="skill-dialog" id="skill-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-header"><div class="dialog-breadcrumb"><span>SKILL DIRECTORY</span><span>/</span><strong id="dialog-current-title">Skill 详情</strong></div><button class="icon-button" id="dialog-close" type="button" aria-label="关闭 Skill 详情"><svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg></button></div>
+    <div class="dialog-body" id="dialog-body"></div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true" hidden><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg><span id="toast-message"></span></div>
+  <noscript><div class="container" style="padding:24px">Skill 详情与 Prompt 生成器需要 JavaScript。也可以直接访问 GitHub 仓库阅读各 Skill 的 USER_USE.md。</div></noscript>
+</body>
+</html>

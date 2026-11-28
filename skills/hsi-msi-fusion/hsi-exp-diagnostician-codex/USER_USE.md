@@ -4,9 +4,16 @@
 
 ## 1. 安装到 Codex
 
+仓库源路径：`skills/hsi-msi-fusion/hsi-exp-diagnostician-codex/`。在 `skills_list/` 仓库根目录执行对应命令，脚本会扁平安装到 `~/.codex/skills/hsi-exp-diagnostician-codex/`。
+
+**Windows (PowerShell)：**
 ```powershell
-New-Item -ItemType Directory -Force "$HOME\.codex\skills" | Out-Null
-Copy-Item -Recurse -Force ".\hsi-exp-diagnostician-codex" "$HOME\.codex\skills\hsi-exp-diagnostician-codex"
+.\scripts\install_skills.ps1 -Skill hsi-exp-diagnostician-codex
+```
+
+**macOS / Linux：**
+```bash
+./scripts/install_skills.sh --skill hsi-exp-diagnostician-codex
 ```
 
 ## 2. 常用调用方式

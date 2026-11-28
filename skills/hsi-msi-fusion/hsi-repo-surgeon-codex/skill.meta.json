@@ -1,0 +1,158 @@
+{
+  "name": "hsi-repo-surgeon-codex",
+  "stage": 3,
+  "stageName": "代码解剖",
+  "alias": "代码解剖与Tool封装",
+  "tagline": "把几千行 PyTorch 仓库，变成张量地图、公式锚点与可调用 Agent Tool。",
+  "description": "先用 AST 定位 nn.Module 与 forward，再阅读真实源码追踪张量、映射论文公式，审计 128+ 波段显存与光谱兼容性，最终提取模块或封装标准 Agent Tool。",
+  "audience": "需要复现开源融合模型、定位核心代码或把求解器接入 Agent 的研究者。",
+  "inputs": [
+    "本地 PyTorch 仓库路径",
+    "模块提取或 Agent Tool 目标",
+    "论文公式与目标波段数（可选）"
+  ],
+  "outputs": [
+    "repo_map.json",
+    "张量流转与公式行号表",
+    "最小模块或 Tool 封装蓝图"
+  ],
+  "tags": [
+    "AST 扫描",
+    "张量审计",
+    "Agent Tool"
+  ],
+  "inputArtifact": "Baseline / Tool 候选与官方源码",
+  "action": "AST 盘点、forward 追踪、显存审计与接口封装",
+  "outputArtifact": "张量表 & Agent Tool",
+  "handoffLabel": "张量表 & Agent Tool",
+  "next": "hsi-exp-diagnostician-codex",
+  "nextText": "运行封装后的模型并保存 gt / pred 数组或 Agent trace，用实验诊断验证空间、光谱与多轮残差表现。",
+  "why": [
+    {
+      "pain": "直接把整个仓库塞给 AI，上下文被配置与样板代码占满，核心 forward 仍看不清。",
+      "benefit": "scan_repo_structure.py 先定位 nn.Module、forward、loss 与入口，再只阅读真实关键文件。"
+    },
+    {
+      "pain": "人工追张量只靠直觉，接入 128 波段后才发现通道硬编码或注意力显存爆炸。",
+      "benefit": "输出端到端维度表，专项检查 C=128–224、二次复杂度、固定倍率与物理一致性接口。"
+    },
+    {
+      "pain": "普通问 AI 容易猜类名、公式位置和张量形状，生成无法运行的“改造方案”。",
+      "benefit": "所有锚点必须回到扫描命中的真实源码，以 file.py:line_start-line_end 和 ClassName.method 对齐。"
+    },
+    {
+      "pain": "模型能跑不等于能接入 Agent，缺少统一返回、残差反馈和资源清理。",
+      "benefit": "按 agent_tool_contract.md 暴露 run(lr_hsi, hr_msi, meta) -> ToolResult，并返回空间/光谱残差与运行信息。"
+    }
+  ],
+  "phases": [
+    {
+      "name": "Phase 0",
+      "title": "自动仓库盘点",
+      "text": "运行 scan_repo_structure.py 定位类、forward、损失与入口，生成 repo_map.json。"
+    },
+    {
+      "name": "Phase 1",
+      "title": "张量与公式追踪",
+      "text": "读取核心源码，输出端到端张量表和论文公式到精确代码行号的映射。"
+    },
+    {
+      "name": "Phase 2",
+      "title": "兼容性与显存审计",
+      "text": "检查通道硬编码、二次复杂度、固定尺度与 Y=XBD / Z=RX 数据一致性钩子。"
+    },
+    {
+      "name": "Phase 3",
+      "title": "提取或 Tool 封装",
+      "text": "按目标交付最小 PyTorch 模块，或标准 Agent Tool wrapper 与物理残差返回。"
+    }
+  ],
+  "promptFields": [
+    {
+      "key": "repo",
+      "label": "本地仓库路径",
+      "type": "text",
+      "default": "D:\\code\\fusion_repo",
+      "placeholder": "D:\\code\\fusion_repo"
+    },
+    {
+      "key": "goal",
+      "label": "解剖目标",
+      "type": "select",
+      "default": "Goal B · 封装 Agent Tool",
+      "options": [
+        "Goal B · 封装 Agent Tool",
+        "Goal A · 提取模块到 Baseline",
+        "仅做张量与兼容性审计"
+      ]
+    },
+    {
+      "key": "bands",
+      "label": "目标波段数",
+      "type": "number",
+      "default": 128,
+      "min": 31,
+      "max": 224
+    }
+  ],
+  "preview": {
+    "title": "repo_map.json + 张量流转表 · 结构预览",
+    "headers": [
+      "Stage",
+      "Tensor",
+      "Shape",
+      "真实源码锚点"
+    ],
+    "rows": [
+      [
+        "Input",
+        "LR_HSI",
+        "[B, C, h, w]",
+        "<实际文件与行号>"
+      ],
+      [
+        "Input",
+        "HR_MSI",
+        "[B, c, H, W]",
+        "<实际文件与行号>"
+      ],
+      [
+        "Core",
+        "<ClassName.forward>",
+        "[B, d, H, W]",
+        "<ClassName.method>"
+      ],
+      [
+        "Output",
+        "Fused HSI",
+        "[B, C, H, W]",
+        "<实际文件与行号>"
+      ]
+    ],
+    "note": "Goal B 另交付 run(lr_hsi, hr_msi, meta) -> ToolResult 与残差返回；所有行号来自扫描后的真实源码。"
+  },
+  "icon": "wrench",
+  "fileDescriptions": [
+    {
+      "path": "SKILL.md",
+      "desc": "四阶段仓库解剖与 Tool 封装工作流。"
+    },
+    {
+      "path": "USER_USE.md",
+      "desc": "仓库解剖、Agent Tool 封装与扫描命令示例。"
+    },
+    {
+      "path": "scripts/scan_repo_structure.py",
+      "desc": "AST 扫描 PyTorch nn.Module、forward、loss 与入口。"
+    },
+    {
+      "path": "references/agent_tool_contract.md",
+      "desc": "HSI-MSI Agent Tool 标准接口与 ToolResult 契约。"
+    },
+    {
+      "path": "references/tensor_audit_checklist.md",
+      "desc": "张量形状、显存和光谱维度审计清单。"
+    }
+  ],
+  "promptTemplate": "使用 $hsi-repo-surgeon-codex 解剖仓库 {{repo}}，目标为 {{goal}}。\n先运行 scripts/scan_repo_structure.py，使用 --repo 指定该目录、--output repo_map.json 保存盘点；再阅读扫描命中的真实文件，不要猜类名、行号或形状。\n输出 LR_HSI / HR_MSI 到 [B, C, H, W] 的端到端张量表和公式-代码锚点，重点审计 {{bands}} 波段下的通道、显存与物理一致性风险。\n最后按目标交付最小集成方案；若封装 Tool，请遵循 agent_tool_contract.md 的 run(lr_hsi, hr_msi, meta) -> ToolResult，返回融合张量、空间/光谱残差与运行信息。"
+}

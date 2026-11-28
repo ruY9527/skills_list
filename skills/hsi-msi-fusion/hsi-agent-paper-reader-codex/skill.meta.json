@@ -1,0 +1,152 @@
+{
+  "name": "hsi-agent-paper-reader-codex",
+  "stage": 2,
+  "stageName": "精读沉淀",
+  "alias": "论文精读与台账",
+  "tagline": "把一次性阅读笔记，沉淀为可检索、可复用的长期文献资产。",
+  "description": "按统一 Schema 精读 HSI-MSI、Vision Agent 与 Agent+HSI-MSI 论文，记录退化模型、光谱策略、Agent 闭环与局限性，并同步生成 CSV + Markdown 台账。",
+  "audience": "论文越读越多，需要稳定支持 Related Work、Baseline 选择和台账去重的研究者。",
+  "inputs": [
+    "论文 PDF / 文本 / Markdown / URL",
+    "论文类别与证据深度",
+    "目标 literature_ledger 目录"
+  ],
+  "outputs": [
+    "结构化精读卡",
+    "literature_ledger/ledger.csv",
+    "literature_ledger/ledger.md"
+  ],
+  "tags": [
+    "统一 Schema",
+    "CSV + Markdown",
+    "局限性提取"
+  ],
+  "inputArtifact": "选定论文与迁移分析结论",
+  "action": "结构化字段提取、局限审计与台账追加去重",
+  "outputArtifact": "ledger.csv + ledger.md",
+  "handoffLabel": "ledger.csv 联动去重",
+  "next": "hsi-repo-surgeon-codex",
+  "nextText": "从台账中选定标为 Baseline 或 Agent Tool Candidate 的开源论文，把官方仓库交给代码解剖。",
+  "why": [
+    {
+      "pain": "普通聊天总结随上下文消失，几周后无法回答“哪篇用了 Blind SRF”。",
+      "benefit": "每篇按固定 Schema 入库，append_ledger.py 同步维护可检索的 CSV 与 Markdown。"
+    },
+    {
+      "pain": "人工笔记格式随意，写 Related Work 时还要重新翻 PDF 找数据集与指标。",
+      "benefit": "退化、光谱、数据集、Agent State/Action/Reflection 等字段一次提取、持续复用。"
+    },
+    {
+      "pain": "只记录方法和结果，容易把论文包装成“都好”，忽略可突破的真实假设。",
+      "benefit": "Phase 2 强制输出隐性假设、研究角色与一句可直接改写的 Related Work 摘要。"
+    },
+    {
+      "pain": "只有摘要时，普通问 AI 可能补出并未阅读的公式、指标或架构。",
+      "benefit": "明确区分 [Full-Text Verified] 与 [Abstract-Level Triage]，未读数值保持缺失而不编造。"
+    }
+  ],
+  "phases": [
+    {
+      "name": "Phase 0",
+      "title": "分类与证据定级",
+      "text": "归类 HSI-MSI / Vision-Agent / Agent+HSI-MSI，并标明全文或摘要证据深度。"
+    },
+    {
+      "name": "Phase 1",
+      "title": "结构化字段提取",
+      "text": "按 extraction_schema.md 提取书目信息、退化、光谱、训练协议与 Agent 闭环。"
+    },
+    {
+      "name": "Phase 2",
+      "title": "局限与资产提取",
+      "text": "判断 Baseline / Agent Tool / Related Work 角色，提炼可复用结论与关键限制。"
+    },
+    {
+      "name": "Phase 3",
+      "title": "持久化入库",
+      "text": "展示精读卡，运行 append_ledger.py 追加或更新记录并重新生成 Markdown 台账。"
+    }
+  ],
+  "promptFields": [
+    {
+      "key": "paper",
+      "label": "论文 PDF / 文本路径",
+      "type": "text",
+      "default": "D:\\papers\\fusion_paper.pdf",
+      "placeholder": "D:\\papers\\paper.pdf"
+    },
+    {
+      "key": "category",
+      "label": "论文类别",
+      "type": "select",
+      "default": "HSI-MSI",
+      "options": [
+        "HSI-MSI",
+        "Vision-Agent",
+        "Agent+HSI-MSI"
+      ]
+    },
+    {
+      "key": "ledger",
+      "label": "台账目录",
+      "type": "text",
+      "default": "./literature_ledger",
+      "placeholder": "./literature_ledger"
+    }
+  ],
+  "preview": {
+    "title": "literature_ledger · 持久化记录预览",
+    "headers": [
+      "字段",
+      "记录内容",
+      "复用价值"
+    ],
+    "rows": [
+      [
+        "Evidence Depth",
+        "[Full-Text Verified]",
+        "区分全文与摘要证据"
+      ],
+      [
+        "Degradation",
+        "<Known / Blind PSF/SRF>",
+        "筛选物理设定相近工作"
+      ],
+      [
+        "Agent Loop",
+        "<State / Tools / Reflection>",
+        "比较闭环与停止策略"
+      ],
+      [
+        "Research Role",
+        "Baseline / Agent Tool / Related Work",
+        "决定下游使用方式"
+      ]
+    ],
+    "note": "每次运行同步维护 ledger.csv 与 ledger.md；雷达可读取同一 ledger.csv 跳过已读论文。"
+  },
+  "icon": "book",
+  "fileDescriptions": [
+    {
+      "path": "SKILL.md",
+      "desc": "四阶段精读流程与完整 append_ledger.py 调用契约。"
+    },
+    {
+      "path": "USER_USE.md",
+      "desc": "安装、单篇入库与台账搜索示例。"
+    },
+    {
+      "path": "scripts/append_ledger.py",
+      "desc": "CSV + Markdown 台账追加、去重、搜索与导出。"
+    },
+    {
+      "path": "references/extraction_schema.md",
+      "desc": "标准化提取字段与局限性审计规则。"
+    },
+    {
+      "path": "examples/sample_paper_note.md",
+      "desc": "结构化精读笔记与 Related Work 摘要模板。"
+    }
+  ],
+  "promptTemplate": "使用 $hsi-agent-paper-reader-codex 精读本地论文 {{paper}}，类别为 {{category}}。\n请按 [Full-Text Verified] 标准提取退化假设、光谱策略、Agent State/Action/Reflection、数据集、原文指标与关键局限性；未读到的字段不要补写。\n判断它应作为 Baseline、Agent Tool Candidate 还是 Related Work，并生成一句客观 Related Work 摘要。\n最后使用 scripts/append_ledger.py 的 --ledger-dir {{ledger}} 追加或更新台账，同时生成 ledger.csv 与 ledger.md。"
+}

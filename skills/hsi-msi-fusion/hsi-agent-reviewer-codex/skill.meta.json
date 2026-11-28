@@ -1,0 +1,162 @@
+{
+  "name": "hsi-agent-reviewer-codex",
+  "stage": 5,
+  "stageName": "审稿攻防",
+  "alias": "三视角审稿与Rebuttal",
+  "tagline": "让遥感、CV 与 Agent 三类严苛审稿人，在投稿前先找一遍致命问题。",
+  "description": "围绕 HSI-MSI 与 Agent+HSI-MSI 稿件，独立模拟遥感物理、CV 方法论、Agent 系统效率三位审稿人，汇总 P0/P1/P2 风险并生成修订或 Rebuttal 行动计划。",
+  "audience": "准备投稿、需要证据驱动压力测试，或正在组织逐点 Rebuttal 的研究者。",
+  "inputs": [
+    "论文 / 方法草稿 / 实验表",
+    "目标 venue 与审稿模式",
+    "Rebuttal 模式下的真实补充结果"
+  ],
+  "outputs": [
+    "3 份独立审稿意见",
+    "P0/P1/P2 Meta-Review",
+    "1–2 周修订或逐点 Rebuttal"
+  ],
+  "tags": [
+    "三视角审稿",
+    "P0 风险",
+    "Rebuttal"
+  ],
+  "inputArtifact": "稿件、诊断指标、消融与成本表",
+  "action": "三视角独立审查、致命问题分级与证据化回应",
+  "outputArtifact": "P0/P1/P2 审稿与行动清单",
+  "handoffLabel": "修订闭环 / 下一轮研究问题",
+  "next": "cross-domain-paper-radar-codex",
+  "nextText": "完成 P0/P1 修订后投稿；若审稿暴露新的机制空白，把问题重新带回上游雷达，开始下一轮有方向的发现。",
+  "why": [
+    {
+      "pain": "单一通用审稿视角只看写作，漏掉遥感物理、CV 新颖性和 Agent 成本之间的交叉硬伤。",
+      "benefit": "三位 persona 独立审查且避免重叠，分别覆盖物理设定、方法证据与系统必要性。"
+    },
+    {
+      "pain": "人工自审容易把问题按章节排列，真正导致拒稿的 P0 被文字润色淹没。",
+      "benefit": "Meta-Review 统一按 P0 拒稿阻断、P1 摇摆点、P2 表达润色分级，先修最致命项。"
+    },
+    {
+      "pain": "Agent 论文最常遇到“为什么不用 MoE”“如何看光谱”“大图跑多久”的追问。",
+      "benefit": "Reviewer 3 将三连问设为强制项，并审查 tile 级延迟、token、确定性与回滚预算。"
+    },
+    {
+      "pain": "普通 AI 写 Rebuttal 容易把计划中的实验说成已完成，或为了说服审稿人而夸大结论。",
+      "benefit": "rebuttal_playbook.md 约束逐点、克制、证据化回应，未运行的实验只作为计划明确表述。"
+    }
+  ],
+  "phases": [
+    {
+      "name": "Phase 0",
+      "title": "锁定目标与范围",
+      "text": "读取稿件、实验表或审稿信，确认 venue 与 Pre-Submission / Rebuttal 模式。"
+    },
+    {
+      "name": "Phase 1",
+      "title": "三视角独立审稿",
+      "text": "分别生成遥感物理、CV 方法论、Agent 系统效率三份不重叠意见与评分。"
+    },
+    {
+      "name": "Phase 2",
+      "title": "Meta-Review 分级",
+      "text": "将问题归为 P0 拒稿阻断、P1 高回报摇摆点与 P2 表达润色。"
+    },
+    {
+      "name": "Phase 3",
+      "title": "修订或 Rebuttal",
+      "text": "投稿前给出 1–2 周实验清单；Rebuttal 则逐点引用真实证据回应。"
+    }
+  ],
+  "promptFields": [
+    {
+      "key": "draft",
+      "label": "论文 / 方法草稿路径",
+      "type": "text",
+      "default": "D:\\paper\\draft.tex",
+      "placeholder": "D:\\paper\\draft.tex"
+    },
+    {
+      "key": "venue",
+      "label": "目标 venue",
+      "type": "select",
+      "default": "CVPR",
+      "options": [
+        "CVPR",
+        "NeurIPS",
+        "ICLR",
+        "TIP",
+        "TPAMI",
+        "TGRS"
+      ]
+    },
+    {
+      "key": "mode",
+      "label": "工作模式",
+      "type": "select",
+      "default": "Pre-Submission Stress Test",
+      "options": [
+        "Pre-Submission Stress Test",
+        "Rebuttal Drafting"
+      ]
+    }
+  ],
+  "preview": {
+    "title": "meta_review.md · 风险分诊预览",
+    "headers": [
+      "级别",
+      "含义",
+      "典型证据缺口",
+      "下一步"
+    ],
+    "rows": [
+      [
+        "P0",
+        "Reject-Risk Blocker",
+        "物理假设、核心新颖性或必要性不成立",
+        "补实验 / 改方法后再投"
+      ],
+      [
+        "P1",
+        "Borderline Swing Point",
+        "关键消融、全分辨率或成本对比不足",
+        "优先补高 ROI 证据"
+      ],
+      [
+        "P2",
+        "Polish / Presentation",
+        "符号、图文与 claim 表述不清",
+        "统一呈现并收敛措辞"
+      ]
+    ],
+    "note": "三份独立意见之后汇总 Meta-Review；Rebuttal 模式严格区分已有结果、计划实验与不能承诺的结论。"
+  },
+  "icon": "shield",
+  "fileDescriptions": [
+    {
+      "path": "SKILL.md",
+      "desc": "四阶段三视角审稿与 Rebuttal 工作流。"
+    },
+    {
+      "path": "USER_USE.md",
+      "desc": "投稿前压力测试与 Rebuttal 调用示例。"
+    },
+    {
+      "path": "references/reviewer_personas.md",
+      "desc": "三类审稿人画像、评分量规与拒稿触发器。"
+    },
+    {
+      "path": "references/rebuttal_playbook.md",
+      "desc": "证据化逐点回应与反夸大写作规则。"
+    }
+  ],
+  "promptTemplate": "使用 $hsi-agent-reviewer-codex 对稿件 {{draft}} 进行三视角严苛审稿，目标 venue 为 {{venue}}，模式为 {{mode}}。\n分别模拟遥感物理逆问题、CV 顶会方法论、Agent 系统效率三位审稿人，独立输出 Summary、Major Weaknesses、Minor Issues、Missing Experiments 与 Rating，避免视角重叠。\nAgent 部分必须回答：为何优于 MoE/Router、如何用非 RGB 物理探针感知光谱、tile 级延迟/token/确定性如何受控。\n{{action}}",
+  "promptComputed": {
+    "action": {
+      "field": "mode",
+      "cases": {
+        "Rebuttal Drafting": "请结合我随后提供的真实审稿意见与补充实验，按 rebuttal_playbook.md 起草克制、逐点、证据化回复；未运行的实验不得写成已完成。"
+      },
+      "default": "请重点列出 P0 拒稿风险、P1 高回报消融与 P2 表达问题，并给出投稿前 1–2 周可执行的实验和修订清单。"
+    }
+  }
+}

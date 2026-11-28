@@ -1,0 +1,8 @@
+{
+  "id": "hsi-msi-fusion",
+  "name": "HSI-MSI 光谱融合",
+  "description": "Agent + HSI-MSI 全链路科研工作流：从跨域论文雷达到三视角审稿。",
+  "hasWorkflow": true,
+  "order": 1,
+  "accent": "spectrum"
+}

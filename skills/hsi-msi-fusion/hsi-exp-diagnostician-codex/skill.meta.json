@@ -1,0 +1,153 @@
+{
+  "name": "hsi-exp-diagnostician-codex",
+  "stage": 4,
+  "stageName": "实验诊断",
+  "alias": "实验诊断与论文出图",
+  "tagline": "不止看平均 PSNR，定位光谱失真、最差波段与 Agent 反思发散。",
+  "description": "从真实 .npy / .mat 数组计算 PSNR、SAM、ERGAS、CC 与逐波段/空间误差，结合指标解释矩阵定位根因，输出出版级 SVG 图和优先修复方案。",
+  "audience": "已有重建结果或 Agent trace，需要解释异常指标、优化方法并制作诊断图的研究者。",
+  "inputs": [
+    "GT 与预测 .npy / .mat 数组",
+    "scale 与数组布局",
+    "可选训练 CSV / Agent 执行 trace"
+  ],
+  "outputs": [
+    "metrics_report.json",
+    "最差波段与像元诊断",
+    "3 张 SVG 与优先修复清单"
+  ],
+  "tags": [
+    "PSNR / SAM / ERGAS",
+    "逐波段诊断",
+    "SVG 出图"
+  ],
+  "inputArtifact": "gt / pred 数组与 Agent 执行日志",
+  "action": "确定性指标计算、异常映射与失败案例可视化",
+  "outputArtifact": "指标 & SVG 诊断图",
+  "handoffLabel": "指标 & SVG 诊断图",
+  "next": "hsi-agent-reviewer-codex",
+  "nextText": "把诊断后的指标表、最差案例、修复消融和 Agent 成本一并交给三视角审稿，检查证据能否支撑投稿结论。",
+  "why": [
+    {
+      "pain": "只汇报平均 PSNR，会掩盖 SAM 变差、边界波段崩溃等决定论文可信度的问题。",
+      "benefit": "compute_hsi_metrics.py 同算 PSNR / SAM / ERGAS / CC，并拆到逐波段和最差像元。"
+    },
+    {
+      "pain": "人工看几张可视化图，很难把“看起来模糊”转成可执行的修复方向。",
+      "benefit": "指标解释矩阵把异常映射到过注入空间细节、归一化失真、SRF 误差或回滚缺失等原因。"
+    },
+    {
+      "pain": "普通问 AI 看到两个指标就能编出提升幅度和根因，缺乏数据支撑。",
+      "benefit": "所有数值直接由用户数组、CSV 或 trace 计算；无数据时不生成虚构表格和改善量。"
+    },
+    {
+      "pain": "论文图临时手画，风格不统一、位图模糊，最差案例也难以定位。",
+      "benefit": "脚本生成 spatial_sam_heatmap.svg、bandwise_psnr.svg 与 worst_pixel_spectrum.svg，保留矢量质量。"
+    }
+  ],
+  "phases": [
+    {
+      "name": "Phase 0",
+      "title": "实验产物接收",
+      "text": "接收 .npy / .mat 数组、CSV 指标或包含工具调用与残差的 Agent JSON trace。"
+    },
+    {
+      "name": "Phase 1",
+      "title": "指标与误差分解",
+      "text": "运行 compute_hsi_metrics.py，计算全局指标、逐波段曲线、Top-K 差像元与空间分位数。"
+    },
+    {
+      "name": "Phase 2",
+      "title": "根因诊断",
+      "text": "依据指标解释矩阵区分空间过注入、光谱失真、边界波段与 Agent 残差振荡。"
+    },
+    {
+      "name": "Phase 3",
+      "title": "修复与出版图",
+      "text": "交付诊断汇总、Top 3 工程修复优先级及空间/波段/像元 SVG 图。"
+    }
+  ],
+  "promptFields": [
+    {
+      "key": "gt",
+      "label": "GT 数组路径（.npy / .mat）",
+      "type": "text",
+      "default": "D:\\exp\\cave_gt.npy",
+      "placeholder": "D:\\exp\\gt.npy"
+    },
+    {
+      "key": "pred",
+      "label": "预测数组路径（.npy / .mat）",
+      "type": "text",
+      "default": "D:\\exp\\ours_pred.npy",
+      "placeholder": "D:\\exp\\pred.npy"
+    },
+    {
+      "key": "scale",
+      "label": "空间退化倍率 scale",
+      "type": "select",
+      "default": "8",
+      "options": [
+        "4",
+        "8",
+        "16"
+      ]
+    }
+  ],
+  "preview": {
+    "title": "metrics_report.json + diag_figs/ · 产出预览",
+    "headers": [
+      "产物",
+      "内容",
+      "诊断用途"
+    ],
+    "rows": [
+      [
+        "Global metrics",
+        "PSNR / SAM / ERGAS / CC",
+        "空间-光谱总体权衡"
+      ],
+      [
+        "Band profile",
+        "逐波段 PSNR / RMSE 与最差波段",
+        "定位吸收谷和边界异常"
+      ],
+      [
+        "spatial_sam_heatmap.svg",
+        "空间 SAM 误差热区",
+        "发现局部失败区域"
+      ],
+      [
+        "bandwise_psnr.svg",
+        "逐波段 PSNR 曲线",
+        "识别光谱维退化"
+      ],
+      [
+        "worst_pixel_spectrum.svg",
+        "最差像元光谱曲线",
+        "观察光谱形状失真"
+      ]
+    ],
+    "note": "数值全部由真实数组计算；若提供 Agent trace，再分析逐轮残差、工具顺序、停止与回滚策略。"
+  },
+  "icon": "chart",
+  "fileDescriptions": [
+    {
+      "path": "SKILL.md",
+      "desc": "四阶段实验诊断流程、指标与出图约束。"
+    },
+    {
+      "path": "USER_USE.md",
+      "desc": "数组诊断、Agent trace 分析与手动脚本示例。"
+    },
+    {
+      "path": "scripts/compute_hsi_metrics.py",
+      "desc": "PSNR/SAM/ERGAS/CC、逐波段误差与 3 张 SVG 诊断图。"
+    },
+    {
+      "path": "references/metric_interpretation_guide.md",
+      "desc": "指标异常、失败模式与根因诊断矩阵。"
+    }
+  ],
+  "promptTemplate": "使用 $hsi-exp-diagnostician-codex 诊断实验结果：GT 路径为 {{gt}}，预测路径为 {{pred}}，倍率 scale={{scale}}。\n运行 scripts/compute_hsi_metrics.py，使用 --gt、--pred、--scale {{scale}}、--plot-dir ./diag_figs、--output metrics_report.json。\n计算 PSNR/SAM/ERGAS/CC，找出最差 5 个波段和最差 SAM 像元，解释 PSNR 与 SAM 是否出现权衡，并给出 Top 3 优先修复方案。\n请核对实际生成的 spatial_sam_heatmap.svg、bandwise_psnr.svg、worst_pixel_spectrum.svg，不要编造指标或改善幅度。"
+}

@@ -1,0 +1,193 @@
+{
+  "name": "hsi-msi-idea-scout-codex",
+  "stage": 1,
+  "stageName": "跨域选题",
+  "alias": "单篇跨域选题与查新",
+  "tagline": "把一篇自然 / 医学图像好论文，转成有查新证据的 HSI-MSI 改造蓝图。",
+  "description": "围绕单篇论文拆解 2–4 个原子创新或失效机理，审计跨域隐性前提，用 OpenAlex + arXiv 双通道反向查新，并为 Track A / B 生成可执行 MVP 与审稿防御。",
+  "audience": "手里已有前沿论文，需要判断“能否迁移、是否有人做过、具体怎么改”的研究者。",
+  "inputs": [
+    "单篇 PDF / URL / 文本 / 官方代码",
+    "Track A / B / 双轨目标",
+    "可选个人 Baseline 与显存档案"
+  ],
+  "outputs": [
+    "Tier 1/2/3 查新矩阵",
+    "隐性前提审计",
+    "迁移蓝图与动机诊断实验"
+  ],
+  "tags": [
+    "双通道查新",
+    "物理适配",
+    "Track A / B"
+  ],
+  "inputArtifact": "P0 候选论文、PDF 与个人 Baseline",
+  "action": "原子点拆解、前提审计、双通道查新与物理适配",
+  "outputArtifact": "Tier 1/2 改造蓝图",
+  "handoffLabel": "Tier 1/2 改造蓝图",
+  "next": "hsi-agent-paper-reader-codex",
+  "nextText": "把选定论文与迁移判断沉淀进结构化精读笔记和长期台账，为代码落地与 Related Work 留好证据。",
+  "why": [
+    {
+      "pain": "普通问 AI 常把迁移理解成“替换模块”，忽略原方法在 3 通道、已知退化等前提。",
+      "benefit": "Phase 2 强制审计 C=31–224 波段、PSF/SRF、SAM 与非 RGB Agent 感知等失效前提。"
+    },
+    {
+      "pain": "只查已发表论文，容易漏掉最近预印本，把“换了名字”的已有工作误判成空白。",
+      "benefit": "check_hsi_gap.py 同查 OpenAlex + arXiv，并以 --synonyms 扩展同义和上位机制词。"
+    },
+    {
+      "pain": "创新点只有概念，没有可证伪的动机实验，写完代码才发现痛点并不成立。",
+      "benefit": "每个 Tier 1/2 子点先生成 10–20 行动机诊断实验，再设计 MVP、关键消融与物理耦合。"
+    },
+    {
+      "pain": "Agent 方案难以回答为何优于 Router、如何感知光谱、延迟如何受控。",
+      "benefit": "Track B 强制回答审稿三连问，并明确非 RGB 探针、动作空间、回滚与 3–4 轮预算。"
+    }
+  ],
+  "phases": [
+    {
+      "name": "Phase 0",
+      "title": "论文接收与资格核验",
+      "text": "读取全文或摘要，检查 9 大 venue 与 24 个月窗口，锁定轨道和个人 Baseline。"
+    },
+    {
+      "name": "Phase 1",
+      "title": "失效机理解构",
+      "text": "提取 2–4 个原子子点，优先寻找被忽略的失败机制，并记录真实原文锚点。"
+    },
+    {
+      "name": "Phase 2",
+      "title": "隐性前提审计",
+      "text": "映射 A1–A5 / B1–B5 痛点，检查医学 M1/M2/M3 金矿与跨域断裂假设。"
+    },
+    {
+      "name": "Phase 3",
+      "title": "逐点反向查新",
+      "text": "对每个子点运行 check_hsi_gap.py，以同义词扩展判定 Tier 1 / 2 / 3。"
+    },
+    {
+      "name": "Phase 4",
+      "title": "迁移蓝图",
+      "text": "为保留子点设计动机实验、张量与物理适配、Agent 闭环、MVP 和消融。"
+    },
+    {
+      "name": "Phase 5",
+      "title": "七条红线审计",
+      "text": "剔除摘要编造、A+B 缝合和无查新证据的空白声明，输出行动优先级。"
+    }
+  ],
+  "promptFields": [
+    {
+      "key": "paper",
+      "label": "论文 PDF / 文本路径",
+      "type": "text",
+      "default": "D:\\papers\\cvpr2025_paper.pdf",
+      "placeholder": "D:\\papers\\paper.pdf"
+    },
+    {
+      "key": "track",
+      "label": "迁移轨道",
+      "type": "select",
+      "default": "双轨（Track A + Track B）",
+      "options": [
+        "双轨（Track A + Track B）",
+        "仅 Track A（HSI-MSI）",
+        "仅 Track B（Agent + HSI-MSI）"
+      ]
+    },
+    {
+      "key": "concept",
+      "label": "重点查新机制短语",
+      "type": "text",
+      "default": "rectified flow inverse problem",
+      "placeholder": "例如 rectified flow inverse problem"
+    }
+  ],
+  "preview": {
+    "title": "transfer_report.md · 查新矩阵预览",
+    "headers": [
+      "ID",
+      "原子机制 / 失效点",
+      "Track",
+      "痛点",
+      "Gap Tier",
+      "决策"
+    ],
+    "rows": [
+      [
+        "P1",
+        "<全文核验的子机制 1>",
+        "Track A",
+        "A1 + A2",
+        "Tier 1",
+        "Keep · Primary"
+      ],
+      [
+        "P2",
+        "<全文核验的子机制 2>",
+        "Track B",
+        "B2 + B4",
+        "Tier 2",
+        "Keep · Differentiated"
+      ],
+      [
+        "P3",
+        "<已饱和模块>",
+        "Track A",
+        "A3",
+        "Tier 3",
+        "Drop · Saturated"
+      ]
+    ],
+    "note": "报告还包含 [Full-Text Verified] 证据标签、真实检索式、10–20 行动机实验与代码级插入位置。"
+  },
+  "icon": "lightbulb",
+  "fileDescriptions": [
+    {
+      "path": "SKILL.md",
+      "desc": "六阶段单篇迁移流程与最终报告契约。"
+    },
+    {
+      "path": "USER_USE.md",
+      "desc": "全局/项目安装、四种场景与查新脚本参数。"
+    },
+    {
+      "path": "scripts/check_hsi_gap.py",
+      "desc": "OpenAlex + arXiv 双通道反向查新与同义词扩展。"
+    },
+    {
+      "path": "scripts/fetch_top_venues.py",
+      "desc": "DBLP + OpenAlex 9 大 venue 辅助检索与元数据核验。"
+    },
+    {
+      "path": "references/venue_taxonomy.md",
+      "desc": "9 大 venue 别名、白名单与滚动两年规则。"
+    },
+    {
+      "path": "references/hsi_msi_pain_points.md",
+      "desc": "A1–A5 与 B1–B5 核心痛点图谱。"
+    },
+    {
+      "path": "references/transfer_bridge_map.md",
+      "desc": "自然/医学到 HSI-MSI 的机制映射与 M1/M2/M3 金矿。"
+    },
+    {
+      "path": "references/my_baseline_profile.md",
+      "desc": "个人 Baseline、GPU、数据集与目标 venue 定制入口。"
+    },
+    {
+      "path": "references/anti_patterns.md",
+      "desc": "7 条学术审计红线与典型反模式。"
+    },
+    {
+      "path": "references/calibration_playbook.md",
+      "desc": "黄金样例、映射词典与技能持续校准方法。"
+    },
+    {
+      "path": "examples/sample_idea_report.md",
+      "desc": "查新矩阵、前提审计与双轨蓝图格式锚点。"
+    }
+  ],
+  "promptTemplate": "使用 $hsi-msi-idea-scout-codex 分析本地论文 {{paper}}，目标为 {{track}}。\n请按 [Full-Text Verified] 深度拆解 2–4 个原子创新点或被忽略的失效机理，完成隐性前提审计。\n重点围绕 “{{concept}}” 运行 scripts/check_hsi_gap.py，使用 --concept 指定机制、--synonyms 提供至少 2 个同义/上位机制短语、--years 3，逐点判定 Tier 1/2/3。\n仅对 Tier 1/2 子点给出动机诊断实验、物理适配、MVP 与关键消融，结合 my_baseline_profile.md 的约束，将完整报告保存为 transfer_report.md。"
+}
